@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="https://jakarta.ee/xml/ns/persistence"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
-    <persistence-unit name="default">
+    <persistence-unit name="inmemory" transaction-type="RESOURCE_LOCAL">
 
+        <class>p.lodz.pl.nbd.model.Box</class>
+        <class>p.lodz.pl.nbd.model.Shipment</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <validation-mode>NONE</validation-mode>
+
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+
+            <property name="jakarta.persistence.jdbc.user" value="ndb"/>
+            <property name="jakarta.persistence.jdbc.password" value="ndb"/>
+        </properties>
     </persistence-unit>
 </persistence>
