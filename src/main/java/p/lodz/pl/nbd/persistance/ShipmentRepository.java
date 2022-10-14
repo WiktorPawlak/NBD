@@ -15,7 +15,7 @@ import java.util.UUID;
 @Stateless
 public class ShipmentRepository extends EntityRepository<Shipment, UUID> {
 
-    @PersistenceContext(unitName = "inmemory")
+    @PersistenceContext(unitName = "postgres")
     private EntityManager em;
 
     public ShipmentRepository() {

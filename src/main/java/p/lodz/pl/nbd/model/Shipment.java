@@ -42,6 +42,7 @@ public class Shipment {
 
     @OneToMany
     @Column(name = "BOX")
+    @ToString.Exclude
     private List<Box> boxes;
 
     @Column(name = "BOX_COST")
@@ -56,5 +57,9 @@ public class Shipment {
         this.locker = locker;
         this.boxes = boxes;
         this.boxesCost = boxes.stream().mapToDouble(Box::getBoxCost).sum();
+    }
+
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
     }
 }
