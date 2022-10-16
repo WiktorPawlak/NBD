@@ -1,5 +1,6 @@
 package p.lodz.pl.nbd.model;
 
+import jakarta.inject.Inject;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +21,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "BOXES")
-@AllArgsConstructor
+@Builder
+@AllArgsConstructor(onConstructor = @__(@Inject))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
 public class Box {

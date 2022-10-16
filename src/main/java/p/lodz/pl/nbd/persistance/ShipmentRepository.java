@@ -1,9 +1,9 @@
 package p.lodz.pl.nbd.persistance;
 
 
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.exception.ConstraintViolationException;
@@ -12,11 +12,12 @@ import p.lodz.pl.nbd.model.Shipment;
 import java.util.List;
 import java.util.UUID;
 
-@Stateless
+
 public class ShipmentRepository extends EntityRepository<Shipment, UUID> {
 
-    @PersistenceContext(unitName = "postgres")
-    private EntityManager em;
+    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
+
+    private final EntityManager em = emf.createEntityManager();
 
     public ShipmentRepository() {
         super(Shipment.class);
@@ -28,7 +29,7 @@ public class ShipmentRepository extends EntityRepository<Shipment, UUID> {
     }
 
     public List<Shipment> getArchivedShipments() {
-        TypedQuery<Shipment> shipmentTypedQuery = em.createNamedQuery("Shipments.findArchivedShipments",
+        TypedQuery<Shipment> shipmentTypedQuery = em.createNamedQuery("Shipment.findArchivedShipments",
                 Shipment.class);
 
         return shipmentTypedQuery.getResultList();

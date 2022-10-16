@@ -1,8 +1,11 @@
 package p.lodz.pl.nbd.model;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Stateful;
 import jakarta.inject.Inject;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.manager.ShipmentManager;
 
 import java.util.ArrayList;
@@ -10,18 +13,19 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Stateful
+@Builder
+@AllArgsConstructor(onConstructor = @__(@Inject))
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ParcelLocker {
 
     private static final int LOCKER_AMMOUNT = 20;
 
     private List<Locker> lockers;
 
-    @Inject
     private ShipmentManager shipmentManager;
 
     @PostConstruct
-    public void initialize() {
+    private void initialize() {
         lockers = new ArrayList<>(LOCKER_AMMOUNT);
         for (int i = 0; i < LOCKER_AMMOUNT; i++) {
             lockers.add(new Locker());
@@ -51,12 +55,12 @@ public class ParcelLocker {
             throw new Exception("Nie ma takiego lockera");
         }
 
-        shipmentManager.getShipment(UUID.fromString(shipmentId))
-                .setOngoing(false);
+        shipmentManager.getShipment(UUID.fromString(shipmentId)).setOngoing(false);
         locker.get(0)
                 .setEmpty(true);
         locker.get(0)
                 .setPassword("");
+        shipmentManager.finalizeShipment(UUID.fromString(shipmentId));
     }
 
     public long countEmptyLockers() {

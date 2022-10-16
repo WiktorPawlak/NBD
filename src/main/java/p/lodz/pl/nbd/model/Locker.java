@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @ToString
-@Embeddable
 public class Locker {
 
     private boolean empty = true;
