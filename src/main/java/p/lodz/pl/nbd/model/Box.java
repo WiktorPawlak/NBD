@@ -41,7 +41,7 @@ public class Box {
     private double weight;
 
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @JoinColumn(name = "ID", nullable = false)
+    @JoinColumn(name = "box_type_id", nullable = false)
     private BoxType boxType;
 
     public double getBoxCost() {

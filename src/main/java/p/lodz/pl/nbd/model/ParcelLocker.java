@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import p.lodz.pl.nbd.manager.ShipmentManager;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class ParcelLocker {
     @Getter
     public static final int LOCKER_AMMOUNT = 20;
 
+    @Setter
     private List<Locker> lockers;
 
     private ShipmentManager shipmentManager;
@@ -31,7 +33,7 @@ public class ParcelLocker {
         }
     }
 
-    public void sendPackage(final Box box) throws Exception {
+    public void sendPackage(final Box box) throws Throwable {
         var emptyLockers = lockers.stream()
                 .filter(Locker::isEmpty)
                 .collect(Collectors.toList());
@@ -41,11 +43,11 @@ public class ParcelLocker {
         }
 
         emptyLockers.get(0).setPassword(UUID.randomUUID().toString());
-        shipmentManager.addShipment(emptyLockers.get(0), List.of(box));
         emptyLockers.get(0).setEmpty(false);
+        shipmentManager.addShipment(emptyLockers.get(0), List.of(box));
     }
 
-    public void receivePackage(final String code, final String shipmentId) throws Exception {
+    public void receivePackage(final String code, final UUID shipmentId) throws Exception {
         var locker = lockers.stream()
                 .filter(lc -> lc.checkPassword(code))
                 .collect(Collectors.toList());
@@ -54,12 +56,12 @@ public class ParcelLocker {
             throw new Exception("Nie ma takiego lockera");
         }
 
-        shipmentManager.getShipment(UUID.fromString(shipmentId)).setOngoing(false);
+        shipmentManager.getShipment(shipmentId).setOngoing(false);
         locker.get(0)
                 .setEmpty(true);
         locker.get(0)
                 .setPassword("");
-        shipmentManager.finalizeShipment(UUID.fromString(shipmentId));
+        shipmentManager.finalizeShipment(shipmentId);
     }
 
     public long countEmptyLockers() {

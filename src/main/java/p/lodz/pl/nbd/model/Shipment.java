@@ -1,5 +1,6 @@
 package p.lodz.pl.nbd.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -43,7 +44,7 @@ public class Shipment {
     @Embedded
     private Locker locker;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Box> boxes;

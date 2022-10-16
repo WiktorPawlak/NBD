@@ -1,14 +1,13 @@
 package p.lodz.pl.nbd.model;
 
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString

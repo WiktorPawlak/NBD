@@ -30,7 +30,7 @@ public class ShipmentManager {
         return shipmentsRepository.getArchivedShipments();
     }
 
-    public void addShipment(final Locker locker, final List<Box> boxes) {
+    public void addShipment(final Locker locker, final List<Box> boxes) throws Throwable {
         shipmentsRepository.save(new Shipment(locker, boxes));
     }
 

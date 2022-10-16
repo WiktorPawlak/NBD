@@ -3,7 +3,6 @@ package p.lodz.pl.nbd.persistance;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import lombok.AllArgsConstructor;
-import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,18 +14,20 @@ public abstract class EntityRepository<T, ID> {
 
     protected abstract EntityManager getEntityManager();
 
-    public <S extends T> void save(S entity) {
+    public <S extends T> void save(S entity) throws Throwable {
         try {
             getEntityManager().getTransaction().begin();
             getEntityManager().persist(entity);
             getEntityManager().getTransaction().commit();
         } catch (PersistenceException e) {
-            throw (ConstraintViolationException) e.getCause();
+            throw e.getCause();
         }
     }
 
     public Optional<T> findById(ID id) {
-        return Optional.of(getEntityManager().find(entityClass, id));
+        return Optional.of(
+                getEntityManager()
+                        .find(entityClass, id));
     }
 
     public List<T> findAll() {
