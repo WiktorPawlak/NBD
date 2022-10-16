@@ -17,8 +17,9 @@ public abstract class EntityRepository<T, ID> {
 
     public <S extends T> void save(S entity) {
         try {
+            getEntityManager().getTransaction().begin();
             getEntityManager().persist(entity);
-            getEntityManager().flush();
+            getEntityManager().getTransaction().commit();
         } catch (PersistenceException e) {
             throw (ConstraintViolationException) e.getCause();
         }

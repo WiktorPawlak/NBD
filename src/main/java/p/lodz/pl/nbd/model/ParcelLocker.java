@@ -1,10 +1,8 @@
 package p.lodz.pl.nbd.model;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.manager.ShipmentManager;
 
@@ -13,19 +11,20 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Builder
-@AllArgsConstructor(onConstructor = @__(@Inject))
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ParcelLocker {
 
-    private static final int LOCKER_AMMOUNT = 20;
+    @Getter
+    public static final int LOCKER_AMMOUNT = 20;
 
     private List<Locker> lockers;
 
     private ShipmentManager shipmentManager;
 
-    @PostConstruct
-    private void initialize() {
+    @Builder
+    public ParcelLocker(ShipmentManager shipmentManager) {
+        this.shipmentManager = shipmentManager;
         lockers = new ArrayList<>(LOCKER_AMMOUNT);
         for (int i = 0; i < LOCKER_AMMOUNT; i++) {
             lockers.add(new Locker());

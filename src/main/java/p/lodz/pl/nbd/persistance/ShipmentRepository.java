@@ -37,10 +37,9 @@ public class ShipmentRepository extends EntityRepository<Shipment, UUID> {
 
     public void archiveShipment(UUID id) {
         try {
-            getEntityManager()
-                    .find(Shipment.class, id)
-                    .setOngoing(false);
-            getEntityManager().flush();
+            em.getTransaction().begin();
+            em.find(Shipment.class, id).setOngoing(false);
+            em.getTransaction().commit();
         } catch (PersistenceException e) {
             throw (ConstraintViolationException) e.getCause();
         }

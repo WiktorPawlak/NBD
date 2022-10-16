@@ -12,7 +12,7 @@
 
 
         <properties>
-            <!--            <property name="hibernate.connection.isolation" value=""/>-->
+            <property name="hibernate.connection.isolation" value="2"/>
             <!--            To configure transactions isolation level in Hibernate,
                             we need to change the property called hibernate.connection.isolation.
                             This property can take one from following entries-->
@@ -24,14 +24,14 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nbddb"/>
             <property name="jakarta.persistence.jdbc.user" value="nbd"/>
             <property name="jakarta.persistence.jdbc.password" value="nbd"/>
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+
 
             <property name="hibernate.transaction.jta.platform"
                       value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
         </properties>
     </persistence-unit>
 </persistence>

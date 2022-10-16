@@ -1,7 +1,7 @@
 package p.lodz.pl.nbd.manager;
 
-import jakarta.inject.Inject;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.model.Box;
 import p.lodz.pl.nbd.model.Locker;
@@ -11,10 +11,11 @@ import p.lodz.pl.nbd.persistance.ShipmentRepository;
 import java.util.List;
 import java.util.UUID;
 
+
+@AllArgsConstructor(staticName = "of")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShipmentManager {
 
-    @Inject
     private ShipmentRepository shipmentsRepository;
 
     public Shipment getShipment(final UUID shipmentId) {
