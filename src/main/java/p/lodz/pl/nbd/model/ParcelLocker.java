@@ -48,7 +48,7 @@ public class ParcelLocker {
         shipmentManager.addShipment(emptyLockers.get(0), List.of(box));
     }
 
-    public void receivePackage(final String code, final UUID shipmentId) throws Exception {
+    public void receivePackage(final String code, final UUID shipmentId) throws Throwable {
         var locker = lockers.stream()
                 .filter(lc -> lc.checkPassword(code))
                 .collect(Collectors.toList());

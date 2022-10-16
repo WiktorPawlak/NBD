@@ -1,5 +1,7 @@
 package p.lodz.pl.nbd.persistance.audit;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@Access(AccessType.FIELD)
 //@EntityListeners(AuditListener.class)
 public abstract class AuditEntity implements Serializable {
 
@@ -31,6 +34,6 @@ public abstract class AuditEntity implements Serializable {
     private LocalDateTime createdOn;
 
     @UpdateTimestamp
-    @Column(name = "updated_on", updatable = false, nullable = false)
+    @Column(name = "updated_on", nullable = false)
     private LocalDateTime updatedOn;
 }

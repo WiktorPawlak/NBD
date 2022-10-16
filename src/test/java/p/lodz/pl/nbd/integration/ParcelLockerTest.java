@@ -1,6 +1,10 @@
 package p.lodz.pl.nbd.integration;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.Persistence;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,14 +28,26 @@ class ParcelLockerTest {
 
     private ParcelLockerFixture fixture;
 
+    private EntityManagerFactory emf;
+
+    private EntityManager em;
+
     private ShipmentRepository shipmentRepository;
+
+    private ShipmentManager shipmentManager;
+
     private ParcelLocker parcelLocker;
 
     @BeforeEach
     void init() {
+        if (emf != null) {
+            emf.close();
+        }
         fixture = new ParcelLockerFixture();
+        emf = Persistence.createEntityManagerFactory("postgres");
+        em = emf.createEntityManager();
         shipmentRepository = new ShipmentRepository();
-        ShipmentManager shipmentManager = ShipmentManager.of(shipmentRepository);
+        shipmentManager = ShipmentManager.of(shipmentRepository);
         parcelLocker = ParcelLocker.builder()
                 .shipmentManager(shipmentManager)
                 .build();
@@ -119,11 +135,38 @@ class ParcelLockerTest {
     }
 
     @Test
-    void ARISE() throws Throwable {
+    void saveShipmentSuccessfully() throws Throwable {
+        //given
         Shipment shipment = new Shipment(fixture.fullLockers.get(0), List.of(fixture.bundle));
+
+        //when
         shipmentRepository.save(shipment);
 
-        shipmentRepository.findAll();
+        //then
+        Shipment shipmentFromDB = shipmentRepository.findById(shipment.getId()).orElseThrow();
+        assertNotNull(shipmentFromDB);
+        assertSame(shipmentFromDB, shipment);
+    }
+
+    @Test
+    void optimisticLockIsThrownWhenFinalizingShipmentTwice() throws Throwable {
+        //given
+        Shipment shipment = new Shipment(fixture.fullLockers.get(0), List.of(fixture.bundle));
+        shipment.setOngoing(true);
+
+        ShipmentRepository shipmentRepository2 = new ShipmentRepository();
+        ShipmentManager shipmentManager2 = ShipmentManager.of(shipmentRepository2);
+        shipmentRepository.save(shipment);
+        //when
+        Shipment operator1 = shipmentRepository.findById(shipment.getId()).orElseThrow();
+        Shipment operator2 = shipmentRepository2.findById(shipment.getId()).orElseThrow();
+
+        shipmentManager.finalizeShipment(operator1.getId());
+
+        Executable finalizeShipment = () -> shipmentManager2.finalizeShipment(operator2.getId());
+
+        //then
+        assertThrows(OptimisticLockException.class, finalizeShipment);
     }
 }
 

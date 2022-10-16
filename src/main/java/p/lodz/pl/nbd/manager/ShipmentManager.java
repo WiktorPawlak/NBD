@@ -34,7 +34,7 @@ public class ShipmentManager {
         shipmentsRepository.save(new Shipment(locker, boxes));
     }
 
-    public void finalizeShipment(final UUID shipmentId) {
+    public void finalizeShipment(final UUID shipmentId) throws Throwable {
         shipmentsRepository.archiveShipment(shipmentId);
     }
 }

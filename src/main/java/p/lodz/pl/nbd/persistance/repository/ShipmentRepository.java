@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
-import org.hibernate.exception.ConstraintViolationException;
 import p.lodz.pl.nbd.model.Shipment;
 
 import java.util.List;
@@ -35,13 +34,13 @@ public class ShipmentRepository extends EntityRepository<Shipment, UUID> {
         return shipmentTypedQuery.getResultList();
     }
 
-    public void archiveShipment(UUID id) {
+    public void archiveShipment(UUID id) throws Throwable {
         try {
             em.getTransaction().begin();
             em.find(Shipment.class, id).setOngoing(false);
             em.getTransaction().commit();
         } catch (PersistenceException e) {
-            throw (ConstraintViolationException) e.getCause();
+            throw e.getCause();
         }
     }
 }
