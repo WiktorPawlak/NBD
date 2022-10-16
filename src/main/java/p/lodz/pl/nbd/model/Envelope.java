@@ -2,23 +2,24 @@ package p.lodz.pl.nbd.model;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-@Embeddable
+@Entity
+@Table(name = "ENVELOPE")
+@DiscriminatorValue("bundle")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
 public class Envelope extends BoxType {
 
     private int priority;
-
-    @Builder
-    public Envelope(int length, int width, int height, int priority) {
-        super(length, width, height);
-        this.priority = priority;
-    }
 
     @Override
     public double getCostModifier() {

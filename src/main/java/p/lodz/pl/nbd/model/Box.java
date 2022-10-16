@@ -1,14 +1,15 @@
 package p.lodz.pl.nbd.model;
 
-import jakarta.inject.Inject;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "BOXES")
+@Getter
 @Builder
-@AllArgsConstructor(onConstructor = @__(@Inject))
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
 public class Box {
@@ -32,13 +34,14 @@ public class Box {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @Getter
     private double weight;
 
-    @Embedded
-    private BoxType type;
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @JoinColumn(name = "ID", nullable = false)
+    private BoxType boxType;
+
 
     public double getBoxCost() {
-        return weight * type.getCostModifier();
+        return weight * boxType.getCostModifier();
     }
 }
