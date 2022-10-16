@@ -1,7 +1,8 @@
 package p.lodz.pl.nbd.manager;
 
-import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.model.Box;
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.Shipment;
@@ -10,8 +11,7 @@ import p.lodz.pl.nbd.persistance.ShipmentRepository;
 import java.util.List;
 import java.util.UUID;
 
-
-@Stateless
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShipmentManager {
 
     @Inject

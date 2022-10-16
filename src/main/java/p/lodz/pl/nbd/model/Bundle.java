@@ -4,6 +4,7 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ public class Bundle extends BoxType {
     @Getter
     private boolean fragile;
 
+    @Builder
     public Bundle(int length, int width, int height, boolean fragile) {
         super(length, width, height);
         this.fragile = fragile;
@@ -22,6 +24,6 @@ public class Bundle extends BoxType {
 
     @Override
     public double getCostModifier() {
-        return 1;
+        return 2;
     }
 }

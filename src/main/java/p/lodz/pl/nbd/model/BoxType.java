@@ -1,5 +1,6 @@
 package p.lodz.pl.nbd.model;
 
+import jakarta.inject.Inject;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Embeddable;
@@ -9,12 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Embeddable
 @MappedSuperclass
 @Getter
 @Setter
-@AllArgsConstructor
+@SuperBuilder
+@AllArgsConstructor(onConstructor = @__(@Inject))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
 public abstract class BoxType {

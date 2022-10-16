@@ -6,11 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +20,9 @@ import lombok.ToString;
 import java.util.List;
 import java.util.UUID;
 
-@NamedQueries({
-        @NamedQuery(name = "Shipment.findArchivedShipments", query = "SELECT s from SHIPMENTS s WHERE s.ongoing = FALSE"),
-})
+
+@NamedQuery(name = "Shipment.findArchivedShipments",
+        query = "SELECT s from Shipment s WHERE s.ongoing = FALSE")
 @Entity
 @Table(name = "SHIPMENTS")
 @Getter
@@ -43,6 +43,7 @@ public class Shipment {
     @OneToMany
     @Column(name = "BOX")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Box> boxes;
 
     @Column(name = "BOX_COST")
@@ -53,6 +54,7 @@ public class Shipment {
     @Column(name = "ONGOING")
     private boolean ongoing;
 
+    @Builder
     public Shipment(final Locker locker, final List<Box> boxes) {
         this.locker = locker;
         this.boxes = boxes;

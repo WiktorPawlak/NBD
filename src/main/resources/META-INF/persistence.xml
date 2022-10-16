@@ -5,9 +5,8 @@
              version="3.0">
     <persistence-unit name="postgres" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>p.lodz.pl.nbd.model.Box</class>
-        <class>p.lodz.pl.nbd.model.Shipment</class>
-        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <!--        <jta-data-source>java:app/jdbc/nbddb</jta-data-source>-->
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
         <validation-mode>NONE</validation-mode>
 
@@ -22,12 +21,14 @@
             <!--            - 4 (repeatable read)-->
             <!--            - 8 (serializable)-->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nbddb;create:true"/>
-            <property name="jakarta.persistence.jdbc.user" value="ndb"/>
-            <property name="jakarta.persistence.jdbc.password" value="ndb"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nbddb"/>
+            <property name="jakarta.persistence.jdbc.user" value="nbd"/>
+            <property name="jakarta.persistence.jdbc.password" value="nbd"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
 
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.transaction.jta.platform"
+                      value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
