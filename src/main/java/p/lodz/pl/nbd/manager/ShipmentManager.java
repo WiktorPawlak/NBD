@@ -3,10 +3,10 @@ package p.lodz.pl.nbd.manager;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import p.lodz.pl.nbd.model.Box;
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.Shipment;
-import p.lodz.pl.nbd.persistance.ShipmentRepository;
+import p.lodz.pl.nbd.model.box.Box;
+import p.lodz.pl.nbd.persistance.repository.ShipmentRepository;
 
 import java.util.List;
 import java.util.UUID;

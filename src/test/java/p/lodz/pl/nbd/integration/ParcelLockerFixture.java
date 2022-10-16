@@ -1,10 +1,10 @@
 package p.lodz.pl.nbd.integration;
 
-import p.lodz.pl.nbd.model.Box;
-import p.lodz.pl.nbd.model.Bundle;
-import p.lodz.pl.nbd.model.Envelope;
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.ParcelLocker;
+import p.lodz.pl.nbd.model.box.Box;
+import p.lodz.pl.nbd.model.box.Bundle;
+import p.lodz.pl.nbd.model.box.Envelope;
 
 import java.util.ArrayList;
 import java.util.List;

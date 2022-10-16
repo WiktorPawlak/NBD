@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.model;
+package p.lodz.pl.nbd.model.box;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
+import p.lodz.pl.nbd.persistance.audit.AuditEntity;
 
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
-public abstract class BoxType {
+public abstract class BoxType extends AuditEntity {
 
     @Id
     @Column(name = "ID", updatable = false)

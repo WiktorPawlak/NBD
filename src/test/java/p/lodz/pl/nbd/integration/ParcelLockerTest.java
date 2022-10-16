@@ -7,10 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import p.lodz.pl.nbd.manager.ShipmentManager;
-import p.lodz.pl.nbd.model.Box;
 import p.lodz.pl.nbd.model.ParcelLocker;
 import p.lodz.pl.nbd.model.Shipment;
-import p.lodz.pl.nbd.persistance.ShipmentRepository;
+import p.lodz.pl.nbd.model.box.Box;
+import p.lodz.pl.nbd.persistance.repository.ShipmentRepository;
 
 import java.util.List;
 
@@ -35,16 +35,6 @@ class ParcelLockerTest {
         parcelLocker = ParcelLocker.builder()
                 .shipmentManager(shipmentManager)
                 .build();
-    }
-
-    @Test
-    void everyLockerShouldBeEmpty() {
-        //given
-        //when
-        var realAmmount = parcelLocker.countEmptyLockers();
-
-        //then
-        assertEquals(ParcelLocker.LOCKER_AMMOUNT, realAmmount);
     }
 
     @Test
@@ -116,6 +106,24 @@ class ParcelLockerTest {
 
         //when
         assertThrows(Exception.class, receivePackage);
+    }
+
+    @Test
+    void everyLockerShouldBeEmpty() {
+        //given
+        //when
+        var realAmmount = parcelLocker.countEmptyLockers();
+
+        //then
+        assertEquals(ParcelLocker.LOCKER_AMMOUNT, realAmmount);
+    }
+
+    @Test
+    void ARISE() throws Throwable {
+        Shipment shipment = new Shipment(fixture.fullLockers.get(0), List.of(fixture.bundle));
+        shipmentRepository.save(shipment);
+
+        shipmentRepository.findAll();
     }
 }
 

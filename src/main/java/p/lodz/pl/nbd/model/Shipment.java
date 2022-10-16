@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
+import p.lodz.pl.nbd.model.box.Box;
+import p.lodz.pl.nbd.persistance.audit.AuditEntity;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +32,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @EqualsAndHashCode
-public class Shipment {
+public class Shipment extends AuditEntity {
 
     @Id
     @Column(name = "ID", updatable = false)
@@ -58,6 +60,7 @@ public class Shipment {
 
     @Builder
     public Shipment(final Locker locker, final List<Box> boxes) {
+        super();
         this.locker = locker;
         this.boxes = boxes;
         this.boxesCost = boxes.stream().mapToDouble(Box::getBoxCost).sum();

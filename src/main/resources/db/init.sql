@@ -1,8 +1,11 @@
 CREATE TABLE BOXES
 (
-    ID          UUID             NOT NULL,
-    weight      DOUBLE PRECISION NOT NULL,
-    box_type_id UUID             NOT NULL,
+    ID          UUID                        NOT NULL,
+    version     BIGINT,
+    created_on  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_on  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    weight      DOUBLE PRECISION            NOT NULL,
+    box_type_id UUID                        NOT NULL,
     CONSTRAINT pk_boxes PRIMARY KEY (ID)
 );
 
@@ -15,11 +18,14 @@ CREATE TABLE BUNDLE
 
 CREATE TABLE BoxType
 (
-    ID     UUID    NOT NULL,
-    type   VARCHAR(31),
-    length INTEGER NOT NULL,
-    width  INTEGER NOT NULL,
-    height INTEGER NOT NULL,
+    ID         UUID                        NOT NULL,
+    type       VARCHAR(31),
+    version    BIGINT,
+    created_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    length     INTEGER                     NOT NULL,
+    width      INTEGER                     NOT NULL,
+    height     INTEGER                     NOT NULL,
     CONSTRAINT pk_boxtype PRIMARY KEY (ID)
 );
 
@@ -32,11 +38,14 @@ CREATE TABLE ENVELOPE
 
 CREATE TABLE SHIPMENTS
 (
-    ID       UUID             NOT NULL,
-    BOX_COST DOUBLE PRECISION NOT NULL,
-    ONGOING  BOOLEAN          NOT NULL,
-    empty    BOOLEAN          NOT NULL,
-    password VARCHAR(255),
+    ID         UUID                        NOT NULL,
+    version    BIGINT,
+    created_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    BOX_COST   DOUBLE PRECISION            NOT NULL,
+    ONGOING    BOOLEAN                     NOT NULL,
+    empty      BOOLEAN                     NOT NULL,
+    password   VARCHAR(255),
     CONSTRAINT pk_shipments PRIMARY KEY (ID)
 );
 

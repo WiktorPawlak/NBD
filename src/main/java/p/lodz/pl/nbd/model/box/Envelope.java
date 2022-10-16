@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.model;
+package p.lodz.pl.nbd.model.box;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -7,29 +7,27 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Entity
-@Table(name = "BUNDLE")
+@Table(name = "ENVELOPE")
 @DiscriminatorValue("bundle")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
-public class Bundle extends BoxType {
+public class Envelope extends BoxType {
 
-    @Getter
-    private boolean fragile;
+    private int priority;
 
     @Builder
-    public Bundle(UUID id, int length, int width, int height, boolean fragile) {
+    public Envelope(UUID id, int length, int width, int height, int priority) {
         super(id, length, width, height);
-        this.fragile = fragile;
+        this.priority = priority;
     }
 
     @Override
     public double getCostModifier() {
-        return 2;
+        return 1d + Math.pow(2, priority + 1d);
     }
 }

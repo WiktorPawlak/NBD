@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import p.lodz.pl.nbd.manager.ShipmentManager;
+import p.lodz.pl.nbd.model.box.Box;
 
 import java.util.ArrayList;
 import java.util.List;

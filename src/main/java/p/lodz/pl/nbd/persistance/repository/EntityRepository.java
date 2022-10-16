@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.persistance;
+package p.lodz.pl.nbd.persistance.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
