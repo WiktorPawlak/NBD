@@ -26,7 +26,7 @@ public class ParcelLocker {
     private ShipmentManager shipmentManager;
 
     @Builder
-    public ParcelLocker(ShipmentManager shipmentManager) {
+    public ParcelLocker(final ShipmentManager shipmentManager) {
         this.shipmentManager = shipmentManager;
         lockers = new ArrayList<>(LOCKER_AMMOUNT);
         for (int i = 0; i < LOCKER_AMMOUNT; i++) {

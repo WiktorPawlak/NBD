@@ -135,7 +135,8 @@ class ParcelLockerTest {
     }
 
     @Test
-    void saveShipmentSuccessfully() throws Throwable {
+    @SneakyThrows
+    void saveShipmentSuccessfully() {
         //given
         Shipment shipment = new Shipment(fixture.fullLockers.get(0), List.of(fixture.bundle));
 
@@ -146,6 +147,20 @@ class ParcelLockerTest {
         Shipment shipmentFromDB = shipmentRepository.findById(shipment.getId()).orElseThrow();
         assertNotNull(shipmentFromDB);
         assertSame(shipmentFromDB, shipment);
+    }
+
+    @Test
+    @SneakyThrows
+    void shouldPolymorphicallyCalculateTotalCost() {
+        //given
+        Shipment shipment = new Shipment(fixture.fullLockers.get(0), List.of(fixture.bundle, fixture.envelope));
+        shipmentRepository.save(shipment);
+
+        //when
+        double result = shipmentManager.totalCost(shipment.getId());
+
+        //then
+        assertEquals(70, result);
     }
 
     @Test

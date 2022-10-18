@@ -34,12 +34,12 @@ public class ShipmentRepository extends EntityRepository<Shipment, UUID> {
         return shipmentTypedQuery.getResultList();
     }
 
-    public void archiveShipment(UUID id) throws Throwable {
+    public void archiveShipment(final UUID id) throws Throwable {
         try {
             em.getTransaction().begin();
             em.find(Shipment.class, id).setOngoing(false);
             em.getTransaction().commit();
-        } catch (PersistenceException e) {
+        } catch (final PersistenceException e) {
             throw e.getCause();
         }
     }

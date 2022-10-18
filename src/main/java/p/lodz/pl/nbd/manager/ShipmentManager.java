@@ -34,6 +34,14 @@ public class ShipmentManager {
         shipmentsRepository.save(new Shipment(locker, boxes));
     }
 
+    public double totalCost(final UUID shipmentId) {
+        Shipment shipment = shipmentsRepository.findById(shipmentId).orElseThrow();
+
+        return shipment.getBoxes().stream()
+                .map(Box::getBoxCost)
+                .reduce(0d, Double::sum);
+    }
+
     public void finalizeShipment(final UUID shipmentId) throws Throwable {
         shipmentsRepository.archiveShipment(shipmentId);
     }

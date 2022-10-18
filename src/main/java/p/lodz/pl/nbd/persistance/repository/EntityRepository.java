@@ -14,17 +14,17 @@ public abstract class EntityRepository<T, ID> {
 
     protected abstract EntityManager getEntityManager();
 
-    public <S extends T> void save(S entity) throws Throwable {
+    public <S extends T> void save(final S entity) throws Throwable {
         try {
             getEntityManager().getTransaction().begin();
             getEntityManager().persist(entity);
             getEntityManager().getTransaction().commit();
-        } catch (PersistenceException e) {
+        } catch (final PersistenceException e) {
             throw e.getCause();
         }
     }
 
-    public Optional<T> findById(ID id) {
+    public Optional<T> findById(final ID id) {
         return Optional.of(
                 getEntityManager()
                         .find(entityClass, id));

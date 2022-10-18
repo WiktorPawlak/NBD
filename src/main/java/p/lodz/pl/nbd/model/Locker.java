@@ -1,5 +1,7 @@
 package p.lodz.pl.nbd.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Locker {
+public class Locker implements Serializable {
 
     private boolean empty = true;
     private String password;
