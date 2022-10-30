@@ -2,8 +2,9 @@ version: '3.8'
 
 services:
   mongo:
-    build: .
-    image: mongocustom:1
+    build:
+      dockerfile: Dockerfile
+    image: mongocustom:latest
     container_name: mongodb
     hostname: mongodb
     networks:
@@ -15,15 +16,16 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=adminpassword
     command: --config /etc/mongod.conf
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 10s
       timeout: 2s
       retries: 5
 
-##initialize mongo replicaset from another container:
+  ##initialize mongo replicaset from another container:
   mongoinit:
-    build: .
-    image: mongocustom:1
+    build:
+      dockerfile: Dockerfile
+    image: mongocustom:latest
     hostname: mongodbinit
     networks:
       - mongonet
@@ -31,9 +33,9 @@ services:
       mongo:
         condition: service_healthy
     command: >
-      mongo --host mongodb:27017 --username admin --password adminpassword --autenthicationDatabase admin --eval
+      mongosh --host mongodb:27017 --username admin --password adminpassword --autenthicationDatabase admin --eval
       '
       rs.initiate();
       '
 networks:
-  mongonet: {}
+  mongonet: { }
