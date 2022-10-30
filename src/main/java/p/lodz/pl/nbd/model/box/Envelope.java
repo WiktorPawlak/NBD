@@ -1,5 +1,7 @@
 package p.lodz.pl.nbd.model.box;
 
+import java.util.UUID;
+
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.DiscriminatorValue;
@@ -9,11 +11,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "ENVELOPE")
-@DiscriminatorValue("bundle")
+@DiscriminatorValue("envelope")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
 public class Envelope extends BoxType {

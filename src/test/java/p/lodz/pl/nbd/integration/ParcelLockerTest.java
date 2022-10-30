@@ -164,7 +164,8 @@ class ParcelLockerTest {
     }
 
     @Test
-    void optimisticLockIsThrownWhenFinalizingShipmentTwice() throws Throwable {
+    @SneakyThrows
+    void optimisticLockIsThrownWhenFinalizingShipmentTwice() {
         //given
         Shipment shipment = new Shipment(fixture.fullLockers.get(0), List.of(fixture.bundle));
         shipment.setOngoing(true);
