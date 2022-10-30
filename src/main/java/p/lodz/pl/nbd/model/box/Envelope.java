@@ -8,6 +8,9 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.UUID;
 
@@ -16,12 +19,27 @@ import java.util.UUID;
 @DiscriminatorValue("bundle")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
+@BsonDiscriminator(value = "envelope")
 public class Envelope extends BoxType {
 
+    @BsonProperty("priority")
     private int priority;
 
+    /*
     @Builder
     public Envelope(UUID id, int length, int width, int height, int priority) {
+        super(id, length, width, height);
+        this.priority = priority;
+    }
+    */
+
+    @BsonCreator
+    @Builder
+    public Envelope(@BsonProperty("id") UUID id,
+                    @BsonProperty("length") int length,
+                    @BsonProperty("width") int width,
+                    @BsonProperty("height") int height,
+                    @BsonProperty("priority")int priority) {
         super(id, length, width, height);
         this.priority = priority;
     }

@@ -15,6 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 import p.lodz.pl.nbd.persistance.audit.AuditEntity;
 
@@ -30,6 +32,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
+@BsonDiscriminator
 public abstract class BoxType extends AuditEntity {
 
     @Id
@@ -39,12 +42,16 @@ public abstract class BoxType extends AuditEntity {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
+    @BsonProperty("id")
     private UUID id;
 
+    @BsonProperty("length")
     private int length;
 
+    @BsonProperty("width")
     private int width;
 
+    @BsonProperty("height")
     private int height;
 
     public abstract double getCostModifier();
