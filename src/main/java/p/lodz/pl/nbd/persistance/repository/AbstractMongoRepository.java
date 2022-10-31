@@ -5,6 +5,7 @@ import java.util.List;
 import org.bson.UuidRepresentation;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.ClassModel;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
@@ -17,6 +18,10 @@ import com.mongodb.client.MongoDatabase;
 
 import lombok.Getter;
 import p.lodz.pl.nbd.persistance.codecs.UniqueIdCodecProvider;
+import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
+import p.lodz.pl.nbd.persistance.document.box.BoxTypeDocument;
+import p.lodz.pl.nbd.persistance.document.box.BundleDocument;
+import p.lodz.pl.nbd.persistance.document.box.EnvelopeDocument;
 
 public abstract class AbstractMongoRepository implements AutoCloseable {
 
@@ -37,18 +42,24 @@ public abstract class AbstractMongoRepository implements AutoCloseable {
     private MongoDatabase mongoRepository;
 
     public void initDbConnection() {
+        ClassModel<BoxDocument> boxDocument = ClassModel.builder(BoxDocument.class).enableDiscriminator(true).build();
+        ClassModel<BoxTypeDocument> boxTypeDocument = ClassModel.builder(BoxTypeDocument.class).enableDiscriminator(true).build();
+        ClassModel<EnvelopeDocument> envelopeDocument = ClassModel.builder(EnvelopeDocument.class).enableDiscriminator(true).build();
+        ClassModel<BundleDocument> bundleDocument = ClassModel.builder(BundleDocument.class).enableDiscriminator(true).build();
+        PojoCodecProvider pojoCodecProvider = PojoCodecProvider.builder().register(boxDocument, boxTypeDocument, envelopeDocument, bundleDocument).build();
+
         MongoClientSettings settings = MongoClientSettings.builder()
                 .credential(credential)
                 .applyConnectionString(connectionString)
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .codecRegistry(CodecRegistries.fromRegistries(
-                        CodecRegistries.fromProviders(new UniqueIdCodecProvider()),
+                        CodecRegistries.fromProviders(new UniqueIdCodecProvider(), pojoCodecProvider),
                         MongoClientSettings.getDefaultCodecRegistry(),
                         pojoCodecRegistry))
                 .build();
 
         mongoClient = MongoClients.create(settings);
-        mongoRepository = mongoClient.getDatabase("nbdmongo");
+        mongoRepository = mongoClient.getDatabase("admin");
     }
 
     @Override

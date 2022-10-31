@@ -6,6 +6,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EnvelopeDocument extends BoxTypeDocument {
 
+    @Getter
     @BsonProperty("priority")
     private int priority;
 

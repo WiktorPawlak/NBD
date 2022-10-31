@@ -1,10 +1,12 @@
 package p.lodz.pl.nbd.model.box;
 
 import lombok.Builder;
+import lombok.Getter;
 
 
 public class Envelope extends BoxType {
 
+    @Getter
     private final int priority;
 
     @Builder

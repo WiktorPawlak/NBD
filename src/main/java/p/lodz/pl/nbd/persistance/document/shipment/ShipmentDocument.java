@@ -1,6 +1,7 @@
 package p.lodz.pl.nbd.persistance.document.shipment;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import p.lodz.pl.nbd.persistance.document.AbstractDocument;
+import p.lodz.pl.nbd.persistance.document.UniqueIdMgd;
 import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
 
 
@@ -36,8 +38,10 @@ public class ShipmentDocument extends AbstractDocument {
     private boolean ongoing;
 
     @Builder
-    public ShipmentDocument(@BsonProperty("locker") LockerDocument locker,
+    public ShipmentDocument(@BsonProperty("_id") UUID id,
+                            @BsonProperty("locker") LockerDocument locker,
                             @BsonProperty("boxes") List<BoxDocument> boxes) {
+        super(new UniqueIdMgd(id));
         this.locker = locker;
         this.boxes = boxes;
         this.boxesCost = boxes.stream().mapToDouble(BoxDocument::getBoxCost).sum();

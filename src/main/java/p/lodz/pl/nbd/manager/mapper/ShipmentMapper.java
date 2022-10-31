@@ -1,5 +1,6 @@
 package p.lodz.pl.nbd.manager.mapper;
 
+import static p.lodz.pl.nbd.manager.mapper.BoxMapper.toBoxes;
 import static p.lodz.pl.nbd.manager.mapper.BoxMapper.toBoxesDocuments;
 
 import java.util.List;
@@ -24,12 +25,22 @@ public final class ShipmentMapper {
 
     public static Shipment toShipment(ShipmentDocument doc) {
         return Shipment.builder()
-                //todo: map database entity to domain entity
+                .id(doc.getEntityId().getUuid())
+                .boxes(toBoxes(doc.getBoxes()))
+                .locker(toLocker(doc.getLocker()))
+                .build();
+    }
+
+    private static Locker toLocker(final LockerDocument locker) {
+        return Locker.builder()
+                .empty(locker.getEmpty())
+                .password(locker.getPassword())
                 .build();
     }
 
     public static ShipmentDocument toShipmentDocument(Shipment shipment) {
         return ShipmentDocument.builder()
+                .id(shipment.getId())
                 .locker(toLockerDocument(shipment.getLocker()))
                 .boxes(toBoxesDocuments(shipment.getBoxes()))
                 .build();
@@ -37,7 +48,8 @@ public final class ShipmentMapper {
 
     private static LockerDocument toLockerDocument(final Locker locker) {
         return LockerDocument.builder()
-                //todo: map domain entity to database entity
+                .empty(locker.getEmpty())
+                .password(locker.getPassword())
                 .build();
     }
 }

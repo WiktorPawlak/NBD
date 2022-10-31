@@ -13,6 +13,7 @@ public class ShipmentRepository extends DocumentRepository<ShipmentDocument, UUI
 
     public ShipmentRepository() {
         super(ShipmentDocument.class, COLLECTION_NAME);
+        initDbConnection();
     }
 
     public List<ShipmentDocument> getArchivedShipments() {

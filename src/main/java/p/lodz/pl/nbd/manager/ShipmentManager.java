@@ -35,7 +35,7 @@ public class ShipmentManager {
     }
 
     public void addShipment(final Locker locker, final List<Box> boxes) throws Throwable {
-        Shipment shipment = new Shipment(null, locker, boxes);
+        Shipment shipment = new Shipment(UUID.randomUUID(), locker, boxes);
         shipmentsRepository.save(toShipmentDocument(shipment));
     }
 

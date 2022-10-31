@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +43,11 @@ class ParcelLockerTest {
         parcelLocker = ParcelLocker.builder()
                 .shipmentManager(shipmentManager)
                 .build();
+    }
+
+    @Test
+    void testtt() throws Throwable {
+        parcelLocker.sendPackage(fixture.envelope);
     }
 
     @Test
@@ -128,7 +134,7 @@ class ParcelLockerTest {
     @Test
     void saveShipmentSuccessfully() {
         //given
-        Shipment shipment = new Shipment(null, fixture.fullLockers.get(0), List.of(fixture.bundle));
+        Shipment shipment = new Shipment(UUID.randomUUID(), fixture.fullLockers.get(0), List.of(fixture.bundle));
 
         //when
         shipmentRepository.save(ShipmentMapper.toShipmentDocument(shipment));
