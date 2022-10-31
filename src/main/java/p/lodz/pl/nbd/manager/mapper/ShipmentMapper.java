@@ -25,7 +25,7 @@ public final class ShipmentMapper {
 
     public static Shipment toShipment(ShipmentDocument doc) {
         return Shipment.builder()
-                .id(doc.getUuid())
+                .id(doc.getId())
                 .boxes(toBoxes(doc.getBoxes()))
                 .locker(toLocker(doc.getLocker()))
                 .build();

@@ -1,5 +1,7 @@
 package p.lodz.pl.nbd.persistance.document.box;
 
+import java.io.Serializable;
+
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -17,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @BsonDiscriminator(key = "_clazz")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class BoxTypeDocument {
+public abstract class BoxTypeDocument implements Serializable {
 
     @BsonProperty("length")
     private int length;

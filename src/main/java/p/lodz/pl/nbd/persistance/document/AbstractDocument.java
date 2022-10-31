@@ -17,11 +17,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractDocument implements Serializable {
 
-    @BsonProperty("_id")
-    private UUID uuid;
+    @BsonProperty("id")
+    private UUID id;
 
     @BsonCreator
-    protected AbstractDocument(@BsonProperty("_id") UUID entityId) {
-        this.uuid = entityId;
+    protected AbstractDocument(@BsonProperty("id") UUID id) {
+        this.id = id;
     }
 }

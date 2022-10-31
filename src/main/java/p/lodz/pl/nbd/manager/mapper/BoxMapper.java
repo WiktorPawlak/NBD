@@ -25,7 +25,7 @@ public final class BoxMapper {
 
     private static BoxDocument toBoxDocument(final Box box) {
         return BoxDocument.builder()
-                .entityId(box.getId())
+                .id(box.getId())
                 .weight(box.getWeight())
                 .boxType(toBoxTypeDocument(box.getBoxType()))
                 .build();
@@ -39,7 +39,7 @@ public final class BoxMapper {
 
     private static Box toBox(final BoxDocument boxDocument) {
         return Box.builder()
-                .id(boxDocument.getUuid())
+                .id(boxDocument.getId())
                 .boxType(toBoxType(boxDocument.getBoxType()))
                 .weight(boxDocument.getWeight())
                 .build();

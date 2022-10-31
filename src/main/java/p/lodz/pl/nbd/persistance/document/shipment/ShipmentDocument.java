@@ -3,6 +3,7 @@ package p.lodz.pl.nbd.persistance.document.shipment;
 import java.util.List;
 import java.util.UUID;
 
+import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import lombok.AccessLevel;
@@ -19,7 +20,7 @@ import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShipmentDocument extends AbstractDocument {
 
     @BsonProperty("locker")
@@ -36,8 +37,9 @@ public class ShipmentDocument extends AbstractDocument {
     @BsonProperty("ongoing")
     private boolean ongoing;
 
+    @BsonCreator
     @Builder
-    public ShipmentDocument(@BsonProperty("_id") UUID id,
+    public ShipmentDocument(@BsonProperty("id") UUID id,
                             @BsonProperty("locker") LockerDocument locker,
                             @BsonProperty("boxes") List<BoxDocument> boxes) {
         super(id);

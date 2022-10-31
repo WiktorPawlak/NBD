@@ -19,15 +19,15 @@ public class BoxDocument extends AbstractDocument {
     @BsonProperty("weight")
     private double weight;
 
-    @BsonProperty("boxType")
+    @BsonProperty(value = "boxType", useDiscriminator = true)
     private BoxTypeDocument boxType;
 
     @Builder
     @BsonCreator
-    public BoxDocument(@BsonProperty("_id") UUID entityId,
+    public BoxDocument(@BsonProperty("id") UUID id,
                        @BsonProperty("weight") double weight,
                        @BsonProperty("boxType") BoxTypeDocument boxType) {
-        super(entityId);
+        super(id);
         this.weight = weight;
         this.boxType = boxType;
     }

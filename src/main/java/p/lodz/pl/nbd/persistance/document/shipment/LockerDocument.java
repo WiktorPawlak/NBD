@@ -1,5 +1,7 @@
 package p.lodz.pl.nbd.persistance.document.shipment;
 
+import java.io.Serializable;
+
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -14,8 +16,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LockerDocument {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class LockerDocument implements Serializable {
 
     @BsonProperty("empty")
     private Boolean empty = true;

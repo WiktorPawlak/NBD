@@ -49,7 +49,9 @@ class ParcelLockerTest {
     void testtt() throws Throwable {
         var lol = shipmentManager.getAllShipments();
         assertNotNull(lol);
-        //parcelLocker.sendPackage(fixture.envelope);
+        parcelLocker.sendPackage(fixture.envelope);
+        var lol2 = shipmentManager.getAllShipments();
+        assertNotNull(lol2);
     }
 
     @Test
