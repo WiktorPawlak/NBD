@@ -1,13 +1,13 @@
 package p.lodz.pl.nbd.integration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.ParcelLocker;
 import p.lodz.pl.nbd.model.box.Box;
 import p.lodz.pl.nbd.model.box.Bundle;
 import p.lodz.pl.nbd.model.box.Envelope;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ParcelLockerFixture {
 

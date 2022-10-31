@@ -1,5 +1,10 @@
 package p.lodz.pl.nbd.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,11 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import p.lodz.pl.nbd.manager.ShipmentManager;
 import p.lodz.pl.nbd.model.box.Box;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,7 +36,7 @@ public class ParcelLocker {
 
     public void sendPackage(final Box box) throws Throwable {
         var emptyLockers = lockers.stream()
-                .filter(Locker::isEmpty)
+                .filter(Locker::getEmpty)
                 .collect(Collectors.toList());
 
         if (emptyLockers.isEmpty()) {
@@ -67,7 +67,7 @@ public class ParcelLocker {
 
     public long countEmptyLockers() {
         return lockers.stream()
-                .filter(Locker::isEmpty)
+                .filter(Locker::getEmpty)
                 .count();
     }
 }

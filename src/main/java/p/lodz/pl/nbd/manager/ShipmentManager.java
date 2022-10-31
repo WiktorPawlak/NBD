@@ -1,5 +1,12 @@
 package p.lodz.pl.nbd.manager;
 
+import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipment;
+import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipmentDocument;
+import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipments;
+
+import java.util.List;
+import java.util.UUID;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -8,9 +15,6 @@ import p.lodz.pl.nbd.model.Shipment;
 import p.lodz.pl.nbd.model.box.Box;
 import p.lodz.pl.nbd.persistance.repository.ShipmentRepository;
 
-import java.util.List;
-import java.util.UUID;
-
 
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,20 +22,21 @@ public class ShipmentManager {
 
     private ShipmentRepository shipmentsRepository;
 
-    public Shipment getShipment(final UUID shipmentId) {
-        return shipmentsRepository.findById(shipmentId).orElseThrow();
+    public List<Shipment> getAllShipments() {
+        return toShipments(shipmentsRepository.findAll());
     }
 
-    public List<Shipment> getAllShipments() {
-        return shipmentsRepository.findAll();
+    public Shipment getShipment(final UUID shipmentId) {
+        return toShipment(shipmentsRepository.findById(shipmentId).orElseThrow());
     }
 
     public List<Shipment> getArchivedShipments() {
-        return shipmentsRepository.getArchivedShipments();
+        return toShipments(shipmentsRepository.getArchivedShipments());
     }
 
     public void addShipment(final Locker locker, final List<Box> boxes) throws Throwable {
-        shipmentsRepository.save(new Shipment(locker, boxes));
+        Shipment shipment = new Shipment(null, locker, boxes);
+        shipmentsRepository.save(toShipmentDocument(shipment));
     }
 
     public void finalizeShipment(final UUID shipmentId) throws Throwable {
