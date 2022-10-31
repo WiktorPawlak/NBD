@@ -19,7 +19,7 @@ import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ShipmentDocument extends AbstractDocument {
 
     @BsonProperty("locker")

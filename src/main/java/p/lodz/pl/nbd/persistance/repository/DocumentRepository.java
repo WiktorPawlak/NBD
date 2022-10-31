@@ -1,5 +1,6 @@
 package p.lodz.pl.nbd.persistance.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,10 +38,11 @@ public abstract class DocumentRepository<T, ID> extends AbstractMongoRepository 
     }
 
     public List<T> findAll() {
+        MongoCollection<T> collection = getMongoRepository().getCollection(collectionName, documentClass);
+        return collection.find().into(new ArrayList<>());
 //        return (List<T>) getEntityManager().createQuery(
 //                        "select e from " + documentClass.getSimpleName() + " e")
 //                .getResultList();
-        return null;
         //todo
     }
 }

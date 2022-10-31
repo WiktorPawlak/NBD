@@ -45,14 +45,14 @@ public abstract class AbstractMongoRepository implements AutoCloseable {
         ClassModel<BoxTypeDocument> boxTypeDocument = ClassModel.builder(BoxTypeDocument.class).enableDiscriminator(true).build();
         ClassModel<EnvelopeDocument> envelopeDocument = ClassModel.builder(EnvelopeDocument.class).enableDiscriminator(true).build();
         ClassModel<BundleDocument> bundleDocument = ClassModel.builder(BundleDocument.class).enableDiscriminator(true).build();
-        PojoCodecProvider pojoCodecProvider = PojoCodecProvider.builder().register(boxDocument, boxTypeDocument, envelopeDocument, bundleDocument).build();
+        PojoCodecProvider shipmentDocumentProvider = PojoCodecProvider.builder().register(boxDocument, boxTypeDocument, envelopeDocument, bundleDocument).build();
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .credential(credential)
                 .applyConnectionString(connectionString)
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .codecRegistry(CodecRegistries.fromRegistries(
-                        CodecRegistries.fromProviders(pojoCodecProvider),
+                        CodecRegistries.fromProviders(shipmentDocumentProvider),
                         MongoClientSettings.getDefaultCodecRegistry(),
                         pojoCodecRegistry))
                 .build();
