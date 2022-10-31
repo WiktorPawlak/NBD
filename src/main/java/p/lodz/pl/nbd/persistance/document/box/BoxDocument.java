@@ -1,5 +1,7 @@
 package p.lodz.pl.nbd.persistance.document.box;
 
+import java.util.UUID;
+
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -8,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.persistance.document.AbstractDocument;
-import p.lodz.pl.nbd.persistance.document.UniqueIdMgd;
 
 
 @Getter
@@ -23,7 +24,7 @@ public class BoxDocument extends AbstractDocument {
 
     @Builder
     @BsonCreator
-    public BoxDocument(@BsonProperty("_id") UniqueIdMgd entityId,
+    public BoxDocument(@BsonProperty("_id") UUID entityId,
                        @BsonProperty("weight") double weight,
                        @BsonProperty("boxType") BoxTypeDocument boxType) {
         super(entityId);

@@ -17,7 +17,6 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
 import lombok.Getter;
-import p.lodz.pl.nbd.persistance.codecs.UniqueIdCodecProvider;
 import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
 import p.lodz.pl.nbd.persistance.document.box.BoxTypeDocument;
 import p.lodz.pl.nbd.persistance.document.box.BundleDocument;
@@ -53,13 +52,13 @@ public abstract class AbstractMongoRepository implements AutoCloseable {
                 .applyConnectionString(connectionString)
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .codecRegistry(CodecRegistries.fromRegistries(
-                        CodecRegistries.fromProviders(new UniqueIdCodecProvider(), pojoCodecProvider),
+                        CodecRegistries.fromProviders(pojoCodecProvider),
                         MongoClientSettings.getDefaultCodecRegistry(),
                         pojoCodecRegistry))
                 .build();
 
         mongoClient = MongoClients.create(settings);
-        mongoRepository = mongoClient.getDatabase("admin");
+        mongoRepository = mongoClient.getDatabase("NBD-Z2-DB");
     }
 
     @Override

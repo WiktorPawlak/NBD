@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import p.lodz.pl.nbd.persistance.document.AbstractDocument;
-import p.lodz.pl.nbd.persistance.document.UniqueIdMgd;
 import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
 
 
@@ -41,7 +40,7 @@ public class ShipmentDocument extends AbstractDocument {
     public ShipmentDocument(@BsonProperty("_id") UUID id,
                             @BsonProperty("locker") LockerDocument locker,
                             @BsonProperty("boxes") List<BoxDocument> boxes) {
-        super(new UniqueIdMgd(id));
+        super(id);
         this.locker = locker;
         this.boxes = boxes;
         this.boxesCost = boxes.stream().mapToDouble(BoxDocument::getBoxCost).sum();

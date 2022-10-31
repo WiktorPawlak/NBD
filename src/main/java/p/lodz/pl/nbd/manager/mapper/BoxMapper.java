@@ -9,7 +9,6 @@ import p.lodz.pl.nbd.model.box.Box;
 import p.lodz.pl.nbd.model.box.BoxType;
 import p.lodz.pl.nbd.model.box.Bundle;
 import p.lodz.pl.nbd.model.box.Envelope;
-import p.lodz.pl.nbd.persistance.document.UniqueIdMgd;
 import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
 import p.lodz.pl.nbd.persistance.document.box.BoxTypeDocument;
 import p.lodz.pl.nbd.persistance.document.box.BundleDocument;
@@ -26,7 +25,7 @@ public final class BoxMapper {
 
     private static BoxDocument toBoxDocument(final Box box) {
         return BoxDocument.builder()
-                .entityId(new UniqueIdMgd(box.getId()))
+                .entityId(box.getId())
                 .weight(box.getWeight())
                 .boxType(toBoxTypeDocument(box.getBoxType()))
                 .build();
@@ -40,7 +39,7 @@ public final class BoxMapper {
 
     private static Box toBox(final BoxDocument boxDocument) {
         return Box.builder()
-                .id(boxDocument.getEntityId().getUuid())
+                .id(boxDocument.getUuid())
                 .boxType(toBoxType(boxDocument.getBoxType()))
                 .weight(boxDocument.getWeight())
                 .build();
