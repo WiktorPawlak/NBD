@@ -23,7 +23,7 @@ public final class BoxMapper {
                 .collect(Collectors.toList());
     }
 
-    private static BoxDocument toBoxDocument(final Box box) {
+    public static BoxDocument toBoxDocument(final Box box) {
         return BoxDocument.builder()
                 .id(box.getId())
                 .weight(box.getWeight())

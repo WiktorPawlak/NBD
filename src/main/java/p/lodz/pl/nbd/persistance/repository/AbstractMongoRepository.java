@@ -33,7 +33,7 @@ public abstract class AbstractMongoRepository implements AutoCloseable {
                     .automatic(true)
                     .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
                     .build());
-
+    
     private MongoClient mongoClient;
 
     @Getter
