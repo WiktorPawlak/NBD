@@ -33,7 +33,8 @@ public abstract class AbstractMongoRepository implements AutoCloseable {
                     .automatic(true)
                     .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
                     .build());
-    
+
+    @Getter
     private MongoClient mongoClient;
 
     @Getter
@@ -44,7 +45,9 @@ public abstract class AbstractMongoRepository implements AutoCloseable {
         ClassModel<BoxTypeDocument> boxTypeDocument = ClassModel.builder(BoxTypeDocument.class).enableDiscriminator(true).build();
         ClassModel<EnvelopeDocument> envelopeDocument = ClassModel.builder(EnvelopeDocument.class).enableDiscriminator(true).build();
         ClassModel<BundleDocument> bundleDocument = ClassModel.builder(BundleDocument.class).enableDiscriminator(true).build();
-        PojoCodecProvider boxDocumentProvider = PojoCodecProvider.builder().conventions(List.of(Conventions.ANNOTATION_CONVENTION)).register(boxDocument, boxTypeDocument, envelopeDocument, bundleDocument).build();
+        PojoCodecProvider boxDocumentProvider = PojoCodecProvider.builder()
+                .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
+                .register(boxDocument, boxTypeDocument, envelopeDocument, bundleDocument).build();
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .credential(credential)

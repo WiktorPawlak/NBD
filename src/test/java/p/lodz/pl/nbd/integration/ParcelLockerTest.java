@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -42,6 +43,12 @@ class ParcelLockerTest {
         parcelLocker = ParcelLocker.builder()
                 .shipmentManager(shipmentManager)
                 .build();
+    }
+
+    @AfterEach
+    void clearDb() {
+        shipmentRepository.getMongoClient().getDatabase("NBD-Z2-DB").drop();
+        shipmentRepository.close();
     }
 
     @SmokeTest
@@ -154,26 +161,3 @@ class ParcelLockerTest {
         assertThrows(Exception.class, sendPackage);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
