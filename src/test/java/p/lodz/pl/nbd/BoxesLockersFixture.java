@@ -1,7 +1,8 @@
-package p.lodz.pl.nbd.integration;
+package p.lodz.pl.nbd;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.ParcelLocker;
@@ -9,9 +10,10 @@ import p.lodz.pl.nbd.model.box.Box;
 import p.lodz.pl.nbd.model.box.Bundle;
 import p.lodz.pl.nbd.model.box.Envelope;
 
-public class ParcelLockerFixture {
+public class BoxesLockersFixture {
 
     public Box bundle = Box.builder()
+            .id(UUID.randomUUID())
             .weight(10)
             .boxType(
                     Bundle.builder()
@@ -24,6 +26,7 @@ public class ParcelLockerFixture {
             .build();
 
     public Box envelope = Box.builder()
+            .id(UUID.randomUUID())
             .weight(10)
             .boxType(
                     Envelope.builder()

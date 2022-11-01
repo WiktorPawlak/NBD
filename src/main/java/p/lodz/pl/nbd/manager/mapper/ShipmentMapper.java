@@ -24,11 +24,13 @@ public final class ShipmentMapper {
     }
 
     public static Shipment toShipment(ShipmentDocument doc) {
-        return Shipment.builder()
+        var shipment = Shipment.builder()
                 .id(doc.getId())
                 .boxes(toBoxes(doc.getBoxes()))
                 .locker(toLocker(doc.getLocker()))
                 .build();
+        shipment.setOngoing(doc.isOngoing());
+        return shipment;
     }
 
     private static Locker toLocker(final LockerDocument locker) {
@@ -39,11 +41,13 @@ public final class ShipmentMapper {
     }
 
     public static ShipmentDocument toShipmentDocument(Shipment shipment) {
-        return ShipmentDocument.builder()
+        var shipmentDoc = ShipmentDocument.builder()
                 .id(shipment.getId())
                 .locker(toLockerDocument(shipment.getLocker()))
                 .boxes(toBoxesDocuments(shipment.getBoxes()))
                 .build();
+        shipmentDoc.setOngoing(shipment.isOngoing());
+        return shipmentDoc;
     }
 
     private static LockerDocument toLockerDocument(final Locker locker) {

@@ -6,12 +6,14 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @BsonDiscriminator(key = "_clazz", value = "Bundle")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = true)
 public class BundleDocument extends BoxTypeDocument {
 
     @Getter

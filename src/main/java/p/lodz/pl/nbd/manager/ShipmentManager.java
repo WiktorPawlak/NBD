@@ -1,5 +1,6 @@
 package p.lodz.pl.nbd.manager;
 
+import static p.lodz.pl.nbd.manager.mapper.BoxMapper.toBox;
 import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipment;
 import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipmentDocument;
 import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipments;
@@ -34,12 +35,25 @@ public class ShipmentManager {
         return toShipments(shipmentsRepository.getArchivedShipments());
     }
 
-    public void addShipment(final Locker locker, final List<Box> boxes) throws Throwable {
+    public UUID addShipment(final Locker locker, final List<Box> boxes) {
         Shipment shipment = new Shipment(UUID.randomUUID(), locker, boxes);
-        shipmentsRepository.save(toShipmentDocument(shipment));
+        shipment.setOngoing(true);
+        return shipmentsRepository.save(toShipmentDocument(shipment)).getId();
     }
 
-    public void finalizeShipment(final UUID shipmentId) throws Throwable {
+    public Box getBoxById(UUID boxId) {
+        return toBox(shipmentsRepository.findBoxById(boxId).orElseThrow());
+    }
+
+    public boolean checkIfBoxWasSent(UUID boxId) {
+        return shipmentsRepository.findBoxById(boxId).isPresent();
+    }
+
+    public void finalizeShipment(final UUID shipmentId) {
         shipmentsRepository.archiveShipment(shipmentId);
+    }
+
+    public void removeShipment(final UUID shipmentId) {
+        shipmentsRepository.deleteShipment(shipmentId);
     }
 }

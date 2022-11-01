@@ -7,6 +7,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @BsonDiscriminator(key = "_clazz")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public abstract class BoxTypeDocument implements Serializable {
 
     @BsonProperty("length")

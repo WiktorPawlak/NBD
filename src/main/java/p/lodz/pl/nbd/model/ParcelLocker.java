@@ -34,7 +34,7 @@ public class ParcelLocker {
         }
     }
 
-    public void sendPackage(final Box box) throws Throwable {
+    public UUID sendPackage(final Box box) throws Throwable {
         var emptyLockers = lockers.stream()
                 .filter(Locker::getEmpty)
                 .collect(Collectors.toList());
@@ -43,25 +43,21 @@ public class ParcelLocker {
             throw new Exception("Nie ma wolnych lockerow");
         }
 
+        if (shipmentManager.checkIfBoxWasSent(box.getId())) {
+            throw new Exception("Paczka została już wysłana");
+        }
+
         emptyLockers.get(0).setPassword(UUID.randomUUID().toString());
         emptyLockers.get(0).setEmpty(false);
-        shipmentManager.addShipment(emptyLockers.get(0), List.of(box));
+        return shipmentManager.addShipment(emptyLockers.get(0), List.of(box));
     }
 
     public void receivePackage(final String code, final UUID shipmentId) throws Throwable {
-        var locker = lockers.stream()
-                .filter(lc -> lc.checkPassword(code))
-                .collect(Collectors.toList());
-
-        if (locker.isEmpty()) {
+        Shipment shipment = shipmentManager.getShipment(shipmentId);
+        if (!shipment.getLocker().checkPassword(code)) {
             throw new Exception("Nie ma takiego lockera");
         }
 
-        shipmentManager.getShipment(shipmentId).setOngoing(false);
-        locker.get(0)
-                .setEmpty(true);
-        locker.get(0)
-                .setPassword("");
         shipmentManager.finalizeShipment(shipmentId);
     }
 

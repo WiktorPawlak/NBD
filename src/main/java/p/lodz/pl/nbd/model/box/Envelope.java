@@ -1,9 +1,10 @@
 package p.lodz.pl.nbd.model.box;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-
+@EqualsAndHashCode(callSuper = true)
 public class Envelope extends BoxType {
 
     @Getter

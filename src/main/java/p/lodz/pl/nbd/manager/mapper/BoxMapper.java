@@ -37,7 +37,7 @@ public final class BoxMapper {
                 .collect(Collectors.toList());
     }
 
-    private static Box toBox(final BoxDocument boxDocument) {
+    public static Box toBox(final BoxDocument boxDocument) {
         return Box.builder()
                 .id(boxDocument.getId())
                 .boxType(toBoxType(boxDocument.getBoxType()))

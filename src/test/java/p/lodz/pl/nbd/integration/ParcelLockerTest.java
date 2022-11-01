@@ -3,10 +3,10 @@ package p.lodz.pl.nbd.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import lombok.SneakyThrows;
+import p.lodz.pl.nbd.BoxesLockersFixture;
+import p.lodz.pl.nbd.SmokeTest;
 import p.lodz.pl.nbd.manager.ShipmentManager;
 import p.lodz.pl.nbd.manager.mapper.ShipmentMapper;
 import p.lodz.pl.nbd.model.ParcelLocker;
@@ -24,10 +26,7 @@ import p.lodz.pl.nbd.persistance.repository.ShipmentRepository;
 
 
 class ParcelLockerTest {
-
-    //todo analyze which tests must stay/can be deleted
-    //todo write new tests for new CRUD operations
-    private ParcelLockerFixture fixture;
+    private BoxesLockersFixture fixture;
 
     private ShipmentRepository shipmentRepository;
 
@@ -37,7 +36,7 @@ class ParcelLockerTest {
 
     @BeforeEach
     void init() {
-        fixture = new ParcelLockerFixture();
+        fixture = new BoxesLockersFixture();
         shipmentRepository = new ShipmentRepository();
         shipmentManager = ShipmentManager.of(shipmentRepository);
         parcelLocker = ParcelLocker.builder()
@@ -45,13 +44,14 @@ class ParcelLockerTest {
                 .build();
     }
 
-    @Test
-    void testtt() throws Throwable {
-        var lol = shipmentManager.getAllShipments();
-        assertNotNull(lol);
-        parcelLocker.sendPackage(fixture.envelope);
-        var lol2 = shipmentManager.getAllShipments();
-        assertNotNull(lol2);
+    @SmokeTest
+    public void getArchivedShipments() {
+        assertNotNull(shipmentManager.getArchivedShipments());
+    }
+
+    @SmokeTest
+    public void getAllShipments() {
+        assertNotNull(shipmentManager.getAllShipments());
     }
 
     @Test
@@ -61,17 +61,16 @@ class ParcelLockerTest {
         Box envelope = fixture.envelope;
 
         //when
-        parcelLocker.sendPackage(envelope);
+        UUID shipmentId = parcelLocker.sendPackage(envelope);
 
-        List<Shipment> allShipments = ShipmentMapper.toShipments(shipmentRepository.findAll());
-        Shipment sentBoxShipment = allShipments.stream().findFirst().orElseThrow();
+        Shipment envelopesShipment = ShipmentMapper.toShipment(
+                shipmentRepository.findById(shipmentId).orElseThrow());
 
         //then
-        assertNotNull(sentBoxShipment);
-        assertNotNull(sentBoxShipment.getBoxes());
-        Box sentBox = sentBoxShipment.getBoxes().get(0);
+        assertNotNull(envelopesShipment);
+        assertNotNull(envelopesShipment.getBoxes());
+        Box sentBox = envelopesShipment.getBoxes().get(0);
         assertEquals(sentBox, envelope);
-        assertSame(sentBox, envelope);
     }
 
     @Test
@@ -91,38 +90,17 @@ class ParcelLockerTest {
     void receivePackageSuccessfully() {
         //given
         Box bundle = fixture.bundle;
-        parcelLocker.sendPackage(bundle);
-
-        List<Shipment> allShipments = ShipmentMapper.toShipments(shipmentRepository.findAll());
-        Shipment sentBoxShipment = allShipments.stream().findFirst().orElseThrow();
-        String password = sentBoxShipment.getLocker().getPassword();
+        UUID bundleShipmentId = parcelLocker.sendPackage(bundle);
+        String password = shipmentManager.getShipment(bundleShipmentId).getLocker().getPassword();
 
         //when
-        parcelLocker.receivePackage(password, sentBoxShipment.getId());
+        parcelLocker.receivePackage(password, bundleShipmentId);
+        Shipment finalizedShipment = shipmentManager.getShipment(bundleShipmentId);
 
         //then
-        Assertions.assertThat(sentBoxShipment)
+        Assertions.assertThat(finalizedShipment)
                 .extracting("ongoing", "locker.empty", "locker.password")
                 .contains(false, true, "");
-    }
-
-    @Test
-    @SneakyThrows
-    void receivePackageThrowsWhenNoEmptyLockers() {
-        //given
-        Box bundle = fixture.bundle;
-        parcelLocker.sendPackage(bundle);
-
-        List<Shipment> allShipments = ShipmentMapper.toShipments(shipmentRepository.findAll());
-        Shipment sentBoxShipment = allShipments.stream().findFirst().orElseThrow();
-        String password = sentBoxShipment.getLocker().getPassword();
-
-        //when
-        parcelLocker.setLockers(fixture.fullLockers);
-        Executable receivePackage = () -> parcelLocker.receivePackage(password, sentBoxShipment.getId());
-
-        //when
-        assertThrows(Exception.class, receivePackage);
     }
 
     @Test
@@ -146,29 +124,35 @@ class ParcelLockerTest {
         //then
         Shipment shipmentFromDB = ShipmentMapper.toShipment(shipmentRepository.findById(shipment.getId()).orElseThrow());
         assertNotNull(shipmentFromDB);
-        assertSame(shipmentFromDB, shipment);
     }
 
-//    @Test
-//    void optimisticLockIsThrownWhenFinalizingShipmentTwice() throws Throwable {
-//        //given
-//        Shipment shipment = new Shipment(nullfixture.fullLockers.get(0), List.of(fixture.bundle));
-//        shipment.setOngoing(true);
-//
-//        ShipmentRepository shipmentRepository2 = new ShipmentRepository();
-//        ShipmentManager shipmentManager2 = ShipmentManager.of(shipmentRepository2);
-//        shipmentRepository.save(shipment);
-//        //when
-//        Shipment operator1 = shipmentRepository.findById(shipment.getId()).orElseThrow();
-//        Shipment operator2 = shipmentRepository2.findById(shipment.getId()).orElseThrow();
-//
-//        shipmentManager.finalizeShipment(operator1.getId());
-//
-//        Executable finalizeShipment = () -> shipmentManager2.finalizeShipment(operator2.getId());
-//
-//        //then
-//        assertThrows(OptimisticLockException.class, finalizeShipment);
-//    } //todo analyze how to test concurrent business operations
+    @Test
+    @SneakyThrows
+    void deleteShipmentSuccessfully() {
+        //given
+        UUID shipmentId = parcelLocker.sendPackage(fixture.bundle);
+
+        //when
+        shipmentManager.removeShipment(shipmentId);
+
+        //then
+        assertThrows(NoSuchElementException.class, () -> shipmentManager.getShipment(shipmentId));
+    }
+
+    @Test
+    @SneakyThrows
+    void cannotSendTheSamePackageTwice() {
+        //given
+        var bundle = fixture.bundle;
+        parcelLocker.sendPackage(bundle);
+        shipmentManager.getBoxById(bundle.getId());
+
+        //when
+        Executable sendPackage = () -> parcelLocker.sendPackage(bundle);
+
+        //then
+        assertThrows(Exception.class, sendPackage);
+    }
 }
 
 

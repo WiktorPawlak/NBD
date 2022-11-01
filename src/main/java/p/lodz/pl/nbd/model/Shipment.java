@@ -21,6 +21,7 @@ public class Shipment {
 
     private UUID id;
 
+    @Setter
     private Locker locker;
 
     @ToString.Exclude

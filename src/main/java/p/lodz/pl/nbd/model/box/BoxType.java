@@ -1,6 +1,7 @@
 package p.lodz.pl.nbd.model.box;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -10,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @AllArgsConstructor
+@EqualsAndHashCode
 public abstract class BoxType {
 
     private int length;

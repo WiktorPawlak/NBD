@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.integration;
+package p.lodz.pl.nbd.test;
 
 public class MappersTest {
 
