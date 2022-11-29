@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -24,24 +26,29 @@ import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
 public class ShipmentDocument extends AbstractDocument {
 
     @BsonProperty("locker")
+    @JsonbProperty("locker")
     private LockerDocument locker;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @JsonbProperty("boxes")
     private List<BoxDocument> boxes;
 
     @BsonProperty("boxCost")
+    @JsonbProperty("boxCost")
     private double boxesCost;
 
     @Setter
     @BsonProperty("ongoing")
+    @JsonbProperty("ongoing")
     private boolean ongoing;
 
     @BsonCreator
     @Builder
-    public ShipmentDocument(@BsonProperty("id") UUID id,
-                            @BsonProperty("locker") LockerDocument locker,
-                            @BsonProperty("boxes") List<BoxDocument> boxes) {
+    @JsonbCreator
+    public ShipmentDocument(@JsonbProperty("id") @BsonProperty("id") UUID id,
+                            @JsonbProperty("locker") @BsonProperty("locker") LockerDocument locker,
+                            @JsonbProperty("boxes") @BsonProperty("boxes") List<BoxDocument> boxes) {
         super(id);
         this.locker = locker;
         this.boxes = boxes;

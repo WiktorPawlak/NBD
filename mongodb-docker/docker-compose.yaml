@@ -33,16 +33,15 @@ services:
       '
       rs.initiate();
       '
+  redis-stack:
+    image: redis/redis-stack:7.0.6-RC2
+    #    volumes:
+    #      - redis-stack-data:/bitnami/redis/data
+    ports:
+      - "8001:8001"
+      - "6379:6379"
 
-#  mongo-express:
-#    image: mongo-express:latest
-#    container_name: mongo-express
-#    restart: always
-#    environment:
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: adminpassword
-#      ME_CONFIG_MONGODB_SERVER: mongodb
-#    ports:
-#      - "8081:8081"
-#    depends_on:
-#      - mongodb
+volumes:
+  redis-stack-data:
+    driver: local
+

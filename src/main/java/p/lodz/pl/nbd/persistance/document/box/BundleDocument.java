@@ -4,6 +4,8 @@ import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,14 +20,16 @@ public class BundleDocument extends BoxTypeDocument {
 
     @Getter
     @BsonProperty("fragile")
+    @JsonbProperty("fragile")
     private Boolean fragile;
 
     @BsonCreator
     @Builder
-    public BundleDocument(@BsonProperty("length") int length,
-                          @BsonProperty("width") int width,
-                          @BsonProperty("height") int height,
-                          @BsonProperty("fragile") Boolean fragile) {
+    @JsonbCreator
+    public BundleDocument(@JsonbProperty("length") @BsonProperty("length") int length,
+                          @JsonbProperty("width") @BsonProperty("width") int width,
+                          @JsonbProperty("height") @BsonProperty("height") int height,
+                          @JsonbProperty("fragile") @BsonProperty("fragile") Boolean fragile) {
         super(length, width, height);
         this.fragile = fragile;
     }

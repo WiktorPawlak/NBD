@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import p.lodz.pl.nbd.manager.ShipmentManager;
 import p.lodz.pl.nbd.model.box.Box;
 
 
@@ -23,10 +22,10 @@ public class ParcelLocker {
     @Setter
     private List<Locker> lockers;
 
-    private ShipmentManager shipmentManager;
+    private ShipmentService shipmentManager;
 
     @Builder
-    public ParcelLocker(ShipmentManager shipmentManager) {
+    public ParcelLocker(ShipmentService shipmentManager) {
         this.shipmentManager = shipmentManager;
         lockers = new ArrayList<>(LOCKER_AMMOUNT);
         for (int i = 0; i < LOCKER_AMMOUNT; i++) {
@@ -49,7 +48,7 @@ public class ParcelLocker {
 
         emptyLockers.get(0).setPassword(UUID.randomUUID().toString());
         emptyLockers.get(0).setEmpty(false);
-        return shipmentManager.addShipment(emptyLockers.get(0), List.of(box));
+        return shipmentManager.addShipment(emptyLockers.get(0), List.of(box)).getId();
     }
 
     public void receivePackage(final String code, final UUID shipmentId) throws Throwable {

@@ -4,6 +4,8 @@ import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,14 +20,16 @@ public class EnvelopeDocument extends BoxTypeDocument {
 
     @Getter
     @BsonProperty("priority")
+    @JsonbProperty("priority")
     private int priority;
 
     @BsonCreator
     @Builder
-    public EnvelopeDocument(@BsonProperty("length") int length,
-                            @BsonProperty("width") int width,
-                            @BsonProperty("height") int height,
-                            @BsonProperty("priority") int priority) {
+    @JsonbCreator
+    public EnvelopeDocument(@JsonbProperty("length") @BsonProperty("length") int length,
+                            @JsonbProperty("width") @BsonProperty("width") int width,
+                            @JsonbProperty("height") @BsonProperty("height") int height,
+                            @JsonbProperty("priority") @BsonProperty("priority") int priority) {
         super(length, width, height);
         this.priority = priority;
     }

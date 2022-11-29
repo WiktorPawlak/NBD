@@ -13,13 +13,15 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.Shipment;
+import p.lodz.pl.nbd.model.ShipmentService;
 import p.lodz.pl.nbd.model.box.Box;
+import p.lodz.pl.nbd.persistance.document.shipment.ShipmentDocument;
 import p.lodz.pl.nbd.persistance.repository.ShipmentRepository;
 
 
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShipmentManager {
+public class ShipmentManager implements ShipmentService {
 
     private ShipmentRepository shipmentsRepository;
 
@@ -27,7 +29,7 @@ public class ShipmentManager {
         return toShipments(shipmentsRepository.findAll());
     }
 
-    public Shipment getShipment(final UUID shipmentId) {
+    public Shipment getShipment(final UUID shipmentId) { //cache shipment
         return toShipment(shipmentsRepository.findById(shipmentId).orElseThrow());
     }
 
@@ -35,13 +37,13 @@ public class ShipmentManager {
         return toShipments(shipmentsRepository.getArchivedShipments());
     }
 
-    public UUID addShipment(final Locker locker, final List<Box> boxes) {
+    public ShipmentDocument addShipment(final Locker locker, final List<Box> boxes) {
         Shipment shipment = new Shipment(UUID.randomUUID(), locker, boxes);
         shipment.setOngoing(true);
-        return shipmentsRepository.save(toShipmentDocument(shipment)).getId();
+        return shipmentsRepository.save(toShipmentDocument(shipment));
     }
 
-    public Box getBoxById(UUID boxId) {
+    public Box getBoxById(UUID boxId) { //cache box
         return toBox(shipmentsRepository.findBoxById(boxId).orElseThrow());
     }
 
@@ -49,11 +51,11 @@ public class ShipmentManager {
         return shipmentsRepository.findBoxById(boxId).isPresent();
     }
 
-    public void finalizeShipment(final UUID shipmentId) {
+    public void finalizeShipment(final UUID shipmentId) { //update cache
         shipmentsRepository.archiveShipment(shipmentId);
     }
 
-    public void removeShipment(final UUID shipmentId) {
+    public void removeShipment(final UUID shipmentId) { //invalidate cache
         shipmentsRepository.deleteShipment(shipmentId);
     }
 }
