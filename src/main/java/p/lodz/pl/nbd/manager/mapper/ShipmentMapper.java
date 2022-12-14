@@ -10,8 +10,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.Shipment;
-import p.lodz.pl.nbd.persistance.document.shipment.LockerDocument;
-import p.lodz.pl.nbd.persistance.document.shipment.ShipmentDocument;
+import p.lodz.pl.nbd.persistence.document.shipment.LockerDocument;
+import p.lodz.pl.nbd.persistence.document.shipment.ShipmentDocument;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

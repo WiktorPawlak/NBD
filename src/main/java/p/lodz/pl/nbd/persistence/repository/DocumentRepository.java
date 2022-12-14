@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.persistance.repository;
+package p.lodz.pl.nbd.persistence.repository;
 
 import static com.mongodb.client.model.Filters.eq;
 

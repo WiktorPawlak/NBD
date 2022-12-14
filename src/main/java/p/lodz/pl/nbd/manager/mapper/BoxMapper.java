@@ -9,10 +9,10 @@ import p.lodz.pl.nbd.model.box.Box;
 import p.lodz.pl.nbd.model.box.BoxType;
 import p.lodz.pl.nbd.model.box.Bundle;
 import p.lodz.pl.nbd.model.box.Envelope;
-import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
-import p.lodz.pl.nbd.persistance.document.box.BoxTypeDocument;
-import p.lodz.pl.nbd.persistance.document.box.BundleDocument;
-import p.lodz.pl.nbd.persistance.document.box.EnvelopeDocument;
+import p.lodz.pl.nbd.persistence.document.box.BoxDocument;
+import p.lodz.pl.nbd.persistence.document.box.BoxTypeDocument;
+import p.lodz.pl.nbd.persistence.document.box.BundleDocument;
+import p.lodz.pl.nbd.persistence.document.box.EnvelopeDocument;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class BoxMapper {

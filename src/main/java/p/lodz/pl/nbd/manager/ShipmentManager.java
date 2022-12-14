@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.Shipment;
 import p.lodz.pl.nbd.model.box.Box;
-import p.lodz.pl.nbd.persistance.repository.ShipmentRepository;
+import p.lodz.pl.nbd.persistence.repository.ShipmentRepository;
 
 
 @AllArgsConstructor(staticName = "of")

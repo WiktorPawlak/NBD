@@ -23,7 +23,7 @@ import p.lodz.pl.nbd.manager.mapper.ShipmentMapper;
 import p.lodz.pl.nbd.model.ParcelLocker;
 import p.lodz.pl.nbd.model.Shipment;
 import p.lodz.pl.nbd.model.box.Box;
-import p.lodz.pl.nbd.persistance.repository.ShipmentRepository;
+import p.lodz.pl.nbd.persistence.repository.ShipmentRepository;
 
 
 class ParcelLockerTest {

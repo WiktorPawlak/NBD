@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import p.lodz.pl.nbd.BoxesLockersFixture;
 import p.lodz.pl.nbd.model.Shipment;
-import p.lodz.pl.nbd.persistance.document.shipment.ShipmentDocument;
+import p.lodz.pl.nbd.persistence.document.shipment.ShipmentDocument;
 
 class ShipmentMapperTest {
 

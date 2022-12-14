@@ -10,11 +10,11 @@ import p.lodz.pl.nbd.model.Shipment;
 import p.lodz.pl.nbd.model.box.Box;
 import p.lodz.pl.nbd.model.box.Bundle;
 import p.lodz.pl.nbd.model.box.Envelope;
-import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
-import p.lodz.pl.nbd.persistance.document.box.BundleDocument;
-import p.lodz.pl.nbd.persistance.document.box.EnvelopeDocument;
-import p.lodz.pl.nbd.persistance.document.shipment.LockerDocument;
-import p.lodz.pl.nbd.persistance.document.shipment.ShipmentDocument;
+import p.lodz.pl.nbd.persistence.document.box.BoxDocument;
+import p.lodz.pl.nbd.persistence.document.box.BundleDocument;
+import p.lodz.pl.nbd.persistence.document.box.EnvelopeDocument;
+import p.lodz.pl.nbd.persistence.document.shipment.LockerDocument;
+import p.lodz.pl.nbd.persistence.document.shipment.ShipmentDocument;
 
 public class BoxesLockersFixture {
 

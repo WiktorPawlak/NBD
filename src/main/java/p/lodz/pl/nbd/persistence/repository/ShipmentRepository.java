@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.persistance.repository;
+package p.lodz.pl.nbd.persistence.repository;
 
 
 import static com.mongodb.client.model.Filters.eq;
@@ -15,8 +15,8 @@ import org.bson.conversions.Bson;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
-import p.lodz.pl.nbd.persistance.document.box.BoxDocument;
-import p.lodz.pl.nbd.persistance.document.shipment.ShipmentDocument;
+import p.lodz.pl.nbd.persistence.document.box.BoxDocument;
+import p.lodz.pl.nbd.persistence.document.shipment.ShipmentDocument;
 
 
 public class ShipmentRepository extends DocumentRepository<ShipmentDocument, UUID> {

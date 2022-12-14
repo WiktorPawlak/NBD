@@ -1,9 +1,7 @@
-package p.lodz.pl.nbd.persistance.document.box;
+package p.lodz.pl.nbd.persistence.document.box;
 
 import java.io.Serializable;
-
-import org.bson.codecs.pojo.annotations.BsonDiscriminator;
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import java.util.UUID;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,18 +16,18 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @AllArgsConstructor
-@BsonDiscriminator(key = "_clazz")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 public abstract class BoxTypeDocument implements Serializable {
 
-    @BsonProperty("length")
+    private UUID id;
+
+    private String discriminator;
+
     private int length;
 
-    @BsonProperty("width")
     private int width;
 
-    @BsonProperty("height")
     private int height;
 
     public abstract double getCostModifier();
