@@ -27,6 +27,6 @@ public interface BoxDao {
     @Update(nullSavingStrategy = NullSavingStrategy.SET_TO_NULL)
     void update(BoxDocument boxTemplate);
 
-    @Delete
+    @Delete(entityClass = BoxDocument.class)
     void delete(BoxDocument boxDocument);
 }

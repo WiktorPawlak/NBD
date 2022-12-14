@@ -43,10 +43,6 @@ public class ParcelLocker {
             throw new Exception("Nie ma wolnych lockerow");
         }
 
-        if (shipmentManager.checkIfBoxWasSent(box.getId())) {
-            throw new Exception("Paczka została już wysłana");
-        }
-
         emptyLockers.get(0).setPassword(UUID.randomUUID().toString());
         emptyLockers.get(0).setEmpty(false);
         return shipmentManager.addShipment(emptyLockers.get(0), List.of(box));
@@ -58,7 +54,7 @@ public class ParcelLocker {
             throw new Exception("Nie ma takiego lockera");
         }
 
-        shipmentManager.finalizeShipment(shipmentId);
+        //shipmentManager.finalizeShipment(shipmentId); //TODO
     }
 
     public long countEmptyLockers() {

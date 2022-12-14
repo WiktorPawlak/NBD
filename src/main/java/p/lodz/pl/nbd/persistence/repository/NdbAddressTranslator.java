@@ -4,11 +4,15 @@ package p.lodz.pl.nbd.persistence.repository;
 import java.net.InetSocketAddress;
 
 import com.datastax.oss.driver.api.core.addresstranslation.AddressTranslator;
+import com.datastax.oss.driver.api.core.context.DriverContext;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 
 public class NdbAddressTranslator implements AddressTranslator {
+
+    public NdbAddressTranslator(DriverContext ctx) {
+    }
 
     @NonNull
     @Override

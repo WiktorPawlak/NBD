@@ -7,42 +7,49 @@ import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.core.type.DataTypes;
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
 
-import lombok.Getter;
+import p.lodz.pl.nbd.persistence.document.InboxMapper;
+import p.lodz.pl.nbd.persistence.document.InboxMapperBuilder;
 
 
-@Getter
-public class CassandraConfig {
+public final class CassandraConfig {
 
-    private final CqlSession session = CqlSession.builder().build();
+    public static final CqlSession session = CqlSession.builder().build();
 
-    private final SimpleStatement createKeyspace = createKeyspace(InboxIdentifiers.NBD_INBOX)
+    public static final InboxMapper inboxMapper = new InboxMapperBuilder(session).build();
+
+    private static final SimpleStatement createKeyspace = createKeyspace(InboxIdentifiers.NBD_INBOX)
             .ifNotExists()
             .withSimpleStrategy(2)
             .withDurableWrites(true)
             .build();
 
-    private final SimpleStatement createBoxTable = SchemaBuilder.createTable("box")
+    private static final SimpleStatement createBoxTypeTable = SchemaBuilder.createTable("box_type")
             .ifNotExists()
             .withPartitionKey("id", DataTypes.UUID)
-            .withColumn("weight", DataTypes.DOUBLE)
-            .withColumn("box_type_id", DataTypes.UUID)
-            .withColumn("box_type_discriminator", DataTypes.TEXT)
-            .withColumn("box_type_length", DataTypes.INT)
-            .withColumn("box_type_width", DataTypes.INT)
-            .withColumn("box_type_height", DataTypes.INT)
+            .withColumn("discriminator", DataTypes.TEXT)
+            .withColumn("length", DataTypes.INT)
+            .withColumn("width", DataTypes.INT)
+            .withColumn("height", DataTypes.INT)
             .build();
 
-    private final SimpleStatement createBundleTable = SchemaBuilder.createTable("bundle")
+    private static final SimpleStatement createBundleTable = SchemaBuilder.createTable("bundle")
             .withPartitionKey("id", DataTypes.UUID)
             .withColumn("fragile", DataTypes.BOOLEAN)
             .build();
 
-    private final SimpleStatement createEnvelopeTable = SchemaBuilder.createTable("envelope")
+    private static final SimpleStatement createEnvelopeTable = SchemaBuilder.createTable("envelope")
             .withPartitionKey("id", DataTypes.UUID)
             .withColumn("priority", DataTypes.INT)
             .build();
 
-    private final SimpleStatement createShipmentTable = SchemaBuilder.createTable("box")
+    private static final SimpleStatement createBoxTable = SchemaBuilder.createTable("box")
+            .ifNotExists()
+            .withPartitionKey("id", DataTypes.UUID)
+            .withColumn("weight", DataTypes.DOUBLE)
+            .withColumn("box_type", DataTypes.custom("box_type"))
+            .build();
+
+    private static final SimpleStatement createShipmentTable = SchemaBuilder.createTable("box")
             .ifNotExists()
             .withPartitionKey("id", DataTypes.UUID)
             .withColumn("boxesCost", DataTypes.DOUBLE)
@@ -50,6 +57,14 @@ public class CassandraConfig {
             .withColumn("ongoing", DataTypes.BOOLEAN)
             .withColumn("locker_empty", DataTypes.BOOLEAN)
             .withColumn("locker_password", DataTypes.TEXT)
-            .withColumn("box_type_height", DataTypes.INT)
             .build();
+
+    {
+        session.execute(createKeyspace);
+        session.execute(createBundleTable);
+        session.execute(createEnvelopeTable);
+        session.execute(createBoxTypeTable);
+        session.execute(createBoxTable);
+        session.execute(createShipmentTable);
+    }
 }

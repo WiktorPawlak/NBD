@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.datastax.oss.driver.api.mapper.annotations.CqlName;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
-import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,9 +33,8 @@ public class BundleDocument extends BoxTypeDocument {
     }
 
     @Override
-    @PartitionKey
     public UUID getId() {
-        return super.getId();
+        return id;
     }
 
     @Override

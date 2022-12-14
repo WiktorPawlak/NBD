@@ -1,59 +1,53 @@
 package p.lodz.pl.nbd.manager;
 
-import static p.lodz.pl.nbd.manager.mapper.BoxMapper.toBox;
 import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipment;
 import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipmentDocument;
-import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipments;
 
 import java.util.List;
 import java.util.UUID;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.model.Locker;
 import p.lodz.pl.nbd.model.Shipment;
 import p.lodz.pl.nbd.model.box.Box;
-import p.lodz.pl.nbd.persistence.repository.ShipmentRepository;
+import p.lodz.pl.nbd.persistence.document.shipment.ShipmentDao;
+import p.lodz.pl.nbd.persistence.repository.CassandraConfig;
+import p.lodz.pl.nbd.persistence.repository.InboxIdentifiers;
 
 
-@AllArgsConstructor(staticName = "of")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ShipmentManager {
 
-    private ShipmentRepository shipmentsRepository;
+    private final ShipmentDao shipmentsRepository = CassandraConfig.inboxMapper.shipmentDao(InboxIdentifiers.NBD_INBOX);
 
-    public List<Shipment> getAllShipments() {
-        return toShipments(shipmentsRepository.findAll());
-    }
+//    public List<Shipment> getAllShipments() {
+//        return toShipments(shipmentsRepository.findAll());
+//    }
 
     public Shipment getShipment(final UUID shipmentId) {
-        return toShipment(shipmentsRepository.findById(shipmentId).orElseThrow());
+        return toShipment(shipmentsRepository.findById(shipmentId));
     }
 
-    public List<Shipment> getArchivedShipments() {
-        return toShipments(shipmentsRepository.getArchivedShipments());
-    }
+//    public List<Shipment> getArchivedShipments() {
+//        return toShipments(shipmentsRepository.getArchivedShipments());
+//    }
 
     public UUID addShipment(final Locker locker, final List<Box> boxes) {
         Shipment shipment = new Shipment(UUID.randomUUID(), locker, boxes);
         shipment.setOngoing(true);
-        return shipmentsRepository.save(toShipmentDocument(shipment)).getId();
+        return shipmentsRepository.create(toShipmentDocument(shipment)).getId();
     }
 
-    public Box getBoxById(UUID boxId) {
-        return toBox(shipmentsRepository.findBoxById(boxId).orElseThrow());
-    }
+//    public Box getBoxById(UUID boxId) {
+//        return toBox(shipmentsRepository.findBoxById(boxId).orElseThrow());
+//    }
 
-    public boolean checkIfBoxWasSent(UUID boxId) {
-        return shipmentsRepository.findBoxById(boxId).isPresent();
-    }
-
-    public void finalizeShipment(final UUID shipmentId) {
-        shipmentsRepository.archiveShipment(shipmentId);
-    }
+//    public void finalizeShipment(final UUID shipmentId) {
+//        shipmentsRepository.archiveShipment(shipmentId);
+//    }
 
     public void removeShipment(final UUID shipmentId) {
-        shipmentsRepository.deleteShipment(shipmentId);
+        shipmentsRepository.delete(shipmentId);
     }
 }

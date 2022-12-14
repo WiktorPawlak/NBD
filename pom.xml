@@ -121,6 +121,7 @@
                         <path>
                             <groupId>com.datastax.oss</groupId>
                             <artifactId>java-driver-mapper-processor</artifactId>
+                            <version>${cassandra-driver.bom}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

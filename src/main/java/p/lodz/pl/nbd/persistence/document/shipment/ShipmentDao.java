@@ -14,20 +14,19 @@ import com.datastax.oss.driver.api.mapper.entity.saving.NullSavingStrategy;
 @Dao
 public interface ShipmentDao {
 
-
     @Select
-    ShipmentDao getShipment(UUID id);
+    ShipmentDocument findById(UUID id);
 
     @QueryProvider(
             providerClass = CreateShipmentQueryProvider.class,
             entityHelpers = {
                     ShipmentDocument.class
             })
-    void create(ShipmentDocument shipmentDocument);
+    ShipmentDocument create(ShipmentDocument shipmentDocument);
 
     @Update(nullSavingStrategy = NullSavingStrategy.SET_TO_NULL)
     void update(ShipmentDocument shipmentTemplate);
 
-    @Delete
-    void delete(ShipmentDocument shipmentDocument);
+    @Delete(entityClass = ShipmentDocument.class)
+    void delete(UUID id);
 }
