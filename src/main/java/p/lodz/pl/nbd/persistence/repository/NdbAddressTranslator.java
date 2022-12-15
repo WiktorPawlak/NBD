@@ -12,6 +12,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class NdbAddressTranslator implements AddressTranslator {
 
     public NdbAddressTranslator(DriverContext ctx) {
+        int lol = 1;
     }
 
     @NonNull
@@ -20,10 +21,19 @@ public class NdbAddressTranslator implements AddressTranslator {
         String hostAddress = inetSocketAddress.getAddress().getHostAddress();
         String hostName = inetSocketAddress.getHostName();
         return switch (hostAddress) {
-            case "172.24.0.2" -> new InetSocketAddress("cassandra1", 9042);
-            case "172.24.0.3" -> new InetSocketAddress("cassandra2", 9043);
+            case "10.5.0.10" -> new InetSocketAddress("localhost", 9042);
+            case "10.5.0.20" -> new InetSocketAddress("localhost", 9043);
             default -> throw new RuntimeException("wrong address");
         };
+
+//        InetSocketAddress translatedAddress = null;
+//
+//        if (inetSocketAddress.getHostName().equals("cassandra1")) {
+//            translatedAddress = new InetSocketAddress("localhost", 9042);
+//        } else if (inetSocketAddress.getHostName().equals("cassandra2")) {
+//            translatedAddress = new InetSocketAddress("localhost", 9043);
+//        }
+//        return translatedAddress;
     }
 
     @Override

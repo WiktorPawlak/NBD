@@ -2,18 +2,28 @@ package p.lodz.pl.nbd.persistence.repository;
 
 import static com.datastax.oss.driver.api.querybuilder.SchemaBuilder.createKeyspace;
 
+import java.net.InetSocketAddress;
+
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.core.type.DataTypes;
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import p.lodz.pl.nbd.persistence.document.InboxMapper;
 import p.lodz.pl.nbd.persistence.document.InboxMapperBuilder;
 
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CassandraConfig {
 
-    public static final CqlSession session = CqlSession.builder().build();
+    public static final CqlSession session = CqlSession.builder()
+            .addContactPoint(new InetSocketAddress("10.5.0.10", 9042))
+            .addContactPoint(new InetSocketAddress("10.5.0.20", 9043))
+            .withLocalDatacenter("dc1")
+            .withAuthCredentials("cassandra", "password")
+            .build();
 
     public static final InboxMapper inboxMapper = new InboxMapperBuilder(session).build();
 
@@ -59,7 +69,7 @@ public final class CassandraConfig {
             .withColumn("locker_password", DataTypes.TEXT)
             .build();
 
-    {
+    static {
         session.execute(createKeyspace);
         session.execute(createBundleTable);
         session.execute(createEnvelopeTable);
