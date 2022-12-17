@@ -28,7 +28,7 @@ public class ShipmentDocument {
 
     @PartitionKey
     private UUID id;
-
+    
     private LockerDocument locker;
 
     @ToString.Exclude

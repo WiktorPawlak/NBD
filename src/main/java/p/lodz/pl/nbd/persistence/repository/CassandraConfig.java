@@ -2,8 +2,7 @@ package p.lodz.pl.nbd.persistence.repository;
 
 import static com.datastax.oss.driver.api.querybuilder.SchemaBuilder.createKeyspace;
 
-import java.net.InetSocketAddress;
-
+import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.core.type.DataTypes;
@@ -19,10 +18,6 @@ import p.lodz.pl.nbd.persistence.document.InboxMapperBuilder;
 public final class CassandraConfig {
 
     public static final CqlSession session = CqlSession.builder()
-            .addContactPoint(new InetSocketAddress("10.5.0.10", 9042))
-            .addContactPoint(new InetSocketAddress("10.5.0.20", 9043))
-            .withLocalDatacenter("dc1")
-            .withAuthCredentials("cassandra", "password")
             .build();
 
     public static final InboxMapper inboxMapper = new InboxMapperBuilder(session).build();
@@ -43,11 +38,13 @@ public final class CassandraConfig {
             .build();
 
     private static final SimpleStatement createBundleTable = SchemaBuilder.createTable("bundle")
+            .ifNotExists()
             .withPartitionKey("id", DataTypes.UUID)
             .withColumn("fragile", DataTypes.BOOLEAN)
             .build();
 
     private static final SimpleStatement createEnvelopeTable = SchemaBuilder.createTable("envelope")
+            .ifNotExists()
             .withPartitionKey("id", DataTypes.UUID)
             .withColumn("priority", DataTypes.INT)
             .build();
@@ -56,25 +53,30 @@ public final class CassandraConfig {
             .ifNotExists()
             .withPartitionKey("id", DataTypes.UUID)
             .withColumn("weight", DataTypes.DOUBLE)
-            .withColumn("box_type", DataTypes.custom("box_type"))
+            .withColumn("box_type_id", DataTypes.UUID)
             .build();
 
-    private static final SimpleStatement createShipmentTable = SchemaBuilder.createTable("box")
+    private static final SimpleStatement createLockerType = SchemaBuilder.createType(InboxIdentifiers.NBD_INBOX, CqlIdentifier.fromCql("locker"))
+            .ifNotExists()
+            .withField("locker_empty", DataTypes.BOOLEAN)
+            .withField("locker_password", DataTypes.TEXT).build();
+
+    private static final SimpleStatement createShipmentTable = SchemaBuilder.createTable("shipment")
             .ifNotExists()
             .withPartitionKey("id", DataTypes.UUID)
-            .withColumn("boxesCost", DataTypes.DOUBLE)
-            .withColumn("boxes", DataTypes.frozenListOf(DataTypes.custom("box")))
+            .withColumn("boxes_cost", DataTypes.DOUBLE)
+            .withColumn("boxes", DataTypes.listOf(DataTypes.UUID))
             .withColumn("ongoing", DataTypes.BOOLEAN)
-            .withColumn("locker_empty", DataTypes.BOOLEAN)
-            .withColumn("locker_password", DataTypes.TEXT)
+            .withColumn("locker", DataTypes.custom("locker"))
             .build();
 
     static {
         session.execute(createKeyspace);
-        session.execute(createBundleTable);
-        session.execute(createEnvelopeTable);
-        session.execute(createBoxTypeTable);
-        session.execute(createBoxTable);
-        session.execute(createShipmentTable);
+        session.execute(createBundleTable.setKeyspace(InboxIdentifiers.NBD_INBOX));
+        session.execute(createEnvelopeTable.setKeyspace(InboxIdentifiers.NBD_INBOX));
+        session.execute(createBoxTypeTable.setKeyspace(InboxIdentifiers.NBD_INBOX));
+        session.execute(createBoxTable.setKeyspace(InboxIdentifiers.NBD_INBOX));
+        session.execute(createLockerType.setKeyspace(InboxIdentifiers.NBD_INBOX));
+        session.execute(createShipmentTable.setKeyspace(InboxIdentifiers.NBD_INBOX));
     }
 }
