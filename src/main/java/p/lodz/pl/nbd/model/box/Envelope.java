@@ -5,14 +5,18 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @EqualsAndHashCode(callSuper = true)
-public class Envelope extends BoxType {
+public class Envelope extends Box {
 
     @Getter
     private final int priority;
 
-    @Builder
-    public Envelope(int length, int width, int height, int priority) {
-        super(length, width, height);
+    @Builder(builderMethodName = "lombokBuilder", builderClassName = "LombokBuilder", buildMethodName = "lombokBuild")
+    public Envelope(double weight,
+                    int length,
+                    int width,
+                    int height,
+                    int priority) {
+        super(weight, length, width, height);
         this.priority = priority;
     }
 

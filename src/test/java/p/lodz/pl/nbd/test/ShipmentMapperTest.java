@@ -1,29 +1,29 @@
 package p.lodz.pl.nbd.test;
 
 import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipment;
-import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipmentDocument;
+import static p.lodz.pl.nbd.manager.mapper.ShipmentMapper.toShipmentByStartDate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import p.lodz.pl.nbd.BoxesLockersFixture;
+import p.lodz.pl.nbd.BoxesShipmentsFixture;
 import p.lodz.pl.nbd.model.Shipment;
-import p.lodz.pl.nbd.persistence.document.shipment.ShipmentDocument;
+import p.lodz.pl.nbd.persistence.table.shipment.ShipmentByStartDate;
 
 class ShipmentMapperTest {
 
-    private BoxesLockersFixture fixture;
+    private BoxesShipmentsFixture fixture;
 
     @BeforeEach
     void init() {
-        fixture = new BoxesLockersFixture();
+        fixture = new BoxesShipmentsFixture();
     }
 
     @Test
     void shipmentDocumentMapsToShipmentSuccessfully() {
         //given
-        ShipmentDocument shipmentDoc = fixture.shipmentDocument;
+        ShipmentByStartDate shipmentDoc = fixture.shipmentByStartDate;
 
         //when
         Shipment mappedShipment = toShipment(shipmentDoc);
@@ -38,7 +38,7 @@ class ShipmentMapperTest {
         Shipment shipment = fixture.shipment;
 
         //when
-        ShipmentDocument mappedShipmentDoc = toShipmentDocument(shipment);
+        ShipmentByStartDate mappedShipmentDoc = toShipmentByStartDate(shipment);
 
         //then
         Assertions.assertThat(mappedShipmentDoc).usingRecursiveComparison().isEqualTo(shipment);

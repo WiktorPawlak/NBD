@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.persistence.repository;
+package p.lodz.pl.nbd.persistence.config;
 
 import com.datastax.oss.driver.api.core.CqlIdentifier;
 

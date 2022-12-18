@@ -1,5 +1,6 @@
 package p.lodz.pl.nbd.model;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import p.lodz.pl.nbd.model.box.Box;
+import p.lodz.pl.nbd.model.box.Bundle;
+import p.lodz.pl.nbd.model.box.Envelope;
 
 
 @Getter
@@ -20,25 +22,37 @@ import p.lodz.pl.nbd.model.box.Box;
 public class Shipment {
 
     private UUID id;
-
-    @Setter
-    private Locker locker;
-
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Box> boxes;
-
+    private List<Bundle> bundles;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Envelope> envelopes;
     private double boxesCost;
-
     @Setter
-    private boolean ongoing;
+    private Instant startDate = Instant.now();
+    @Setter
+    private Instant finalizationDate;
 
     @Builder
-    public Shipment(final UUID id, final Locker locker, final List<Box> boxes) {
-        super();
+    public Shipment(final UUID id,
+                    final List<Bundle> bundles,
+                    final List<Envelope> envelopes) {
         this.id = id;
-        this.locker = locker;
-        this.boxes = boxes;
-        this.boxesCost = boxes.stream().mapToDouble(Box::getBoxCost).sum();
+        this.bundles = bundles;
+        this.envelopes = envelopes;
+        this.boxesCost = calculateTotalCost(bundles, envelopes);
+    }
+
+    private double calculateTotalCost(final List<Bundle> bundles,
+                                      final List<Envelope> envelopes) {
+        double total = 0;
+        if (bundles != null) {
+            total += bundles.stream().mapToDouble(Bundle::getBoxCost).sum();
+        }
+        if (envelopes != null) {
+            total += envelopes.stream().mapToDouble(Envelope::getBoxCost).sum();
+        }
+        return total;
     }
 }

@@ -5,14 +5,18 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @EqualsAndHashCode(callSuper = true)
-public class Bundle extends BoxType {
+public class Bundle extends Box {
 
     @Getter
     private final Boolean fragile;
 
-    @Builder
-    public Bundle(int length, int width, int height, Boolean fragile) {
-        super(length, width, height);
+    @Builder(builderMethodName = "lombokBuilder", builderClassName = "LombokBuilder", buildMethodName = "lombokBuild")
+    public Bundle(double weight,
+                  int length,
+                  int width,
+                  int height,
+                  Boolean fragile) {
+        super(weight, length, width, height);
         this.fragile = fragile;
     }
 

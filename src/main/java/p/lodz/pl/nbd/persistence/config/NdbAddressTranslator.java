@@ -1,4 +1,4 @@
-package p.lodz.pl.nbd.persistence.repository;
+package p.lodz.pl.nbd.persistence.config;
 
 
 import java.net.InetSocketAddress;
