@@ -14,8 +14,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
-
 import p.lodz.pl.nbd.BoxesShipmentsFixture;
 import p.lodz.pl.nbd.SmokeTest;
 import p.lodz.pl.nbd.manager.ShipmentManager;
@@ -23,7 +21,6 @@ import p.lodz.pl.nbd.model.Shipment;
 import p.lodz.pl.nbd.model.box.Bundle;
 import p.lodz.pl.nbd.model.box.Envelope;
 import p.lodz.pl.nbd.persistence.config.CassandraConfig;
-import p.lodz.pl.nbd.persistence.config.InboxIdentifiers;
 
 
 class ShipmentTest {
@@ -40,8 +37,7 @@ class ShipmentTest {
 
     @AfterEach
     void clearDb() {
-        CassandraConfig.session.execute(QueryBuilder.truncate(InboxIdentifiers.NBD_INBOX.toString(),
-                InboxIdentifiers.SHIPMENTS_BY_START_DATE).build());
+        CassandraConfig.clearShipmentsByStartDate();
     }
 
     @SmokeTest

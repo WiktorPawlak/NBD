@@ -12,6 +12,7 @@ import com.datastax.oss.driver.api.core.type.codec.TypeCodec;
 import com.datastax.oss.driver.api.core.type.codec.registry.CodecRegistry;
 import com.datastax.oss.driver.api.core.type.codec.registry.MutableCodecRegistry;
 import com.datastax.oss.driver.api.core.type.reflect.GenericType;
+import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
 
 import lombok.AccessLevel;
@@ -81,6 +82,11 @@ public final class CassandraConfig {
 
         ((MutableCodecRegistry) codecRegistry).register(bundleUdtCodec);
         ((MutableCodecRegistry) codecRegistry).register(envelopeUdtCodec);
+    }
+
+    public static void clearShipmentsByStartDate() {
+        session.execute(QueryBuilder.truncate(InboxIdentifiers.NBD_INBOX.toString(),
+                InboxIdentifiers.SHIPMENTS_BY_START_DATE).build());
     }
 
     private static BundleUdtCodec getBundleUdtCodec(final CodecRegistry codecRegistry) {
