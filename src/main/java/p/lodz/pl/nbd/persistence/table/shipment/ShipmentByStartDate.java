@@ -45,6 +45,7 @@ public class ShipmentByStartDate {
     @ClusteringColumn
     private Instant startDate;
 
+    @Setter
     private Instant finalizationDate;
 
     @Builder

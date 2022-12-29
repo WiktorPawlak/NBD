@@ -28,6 +28,7 @@ public final class ShipmentMapper {
                 .bundles(toBundles(doc.getBundles()))
                 .envelopes(toEnvelopes(doc.getEnvelopes()))
                 .build();
+        shipment.recalculateTotalCost();
         shipment.setStartDate(doc.getStartDate());
         shipment.setFinalizationDate(doc.getFinalizationDate());
         return shipment;

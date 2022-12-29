@@ -1,6 +1,7 @@
 package p.lodz.pl.nbd.persistence.repository;
 
 
+import java.util.Optional;
 import java.util.UUID;
 
 import com.datastax.oss.driver.api.mapper.annotations.Dao;
@@ -15,10 +16,10 @@ import p.lodz.pl.nbd.persistence.table.shipment.ShipmentByStartDate;
 public interface ShipmentDao {
 
     @Select
-    ShipmentByStartDate findById(final UUID id);
+    Optional<ShipmentByStartDate> findById(final UUID id);
 
     @Insert
-    ShipmentByStartDate insert(final ShipmentByStartDate shipmentByFinalizationDate);
+    ShipmentByStartDate insert(final ShipmentByStartDate shipmentByStartDate);
 
     @Delete(entityClass = ShipmentByStartDate.class)
     void delete(final UUID id);

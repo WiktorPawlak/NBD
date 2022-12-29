@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 public class EnvelopeUdt extends BoxUdt {
 
     @Getter
+    @Setter
     private int priority;
 
     @Builder

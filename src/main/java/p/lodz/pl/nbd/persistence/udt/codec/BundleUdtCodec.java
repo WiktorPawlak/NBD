@@ -33,16 +33,12 @@ public class BundleUdtCodec extends MappingCodec<UdtValue, BundleUdt> {
     @Nullable
     @Override
     protected BundleUdt innerToOuter(@Nullable final UdtValue value) {
-        return value == null ? null : toBundleType(value);
+        return value == null ? null : ShipmentEntityMapper.toBundleType(value);
     }
 
     @Nullable
     @Override
     protected UdtValue outerToInner(@Nullable final BundleUdt value) {
         return value == null ? null : ShipmentEntityMapper.toBoxUdt(getCqlType(), value);
-    }
-
-    protected BundleUdt toBundleType(UdtValue value) {
-        return ShipmentEntityMapper.toBundleType(value);
     }
 }

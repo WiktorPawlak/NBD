@@ -33,16 +33,12 @@ public class EnvelopeUdtCodec extends MappingCodec<UdtValue, EnvelopeUdt> {
     @Nullable
     @Override
     protected EnvelopeUdt innerToOuter(@Nullable final UdtValue value) {
-        return value == null ? null : toEnvelopeType(value);
+        return value == null ? null : ShipmentEntityMapper.toEnvelopeType(value);
     }
 
     @Nullable
     @Override
     protected UdtValue outerToInner(@Nullable final EnvelopeUdt value) {
         return value == null ? null : ShipmentEntityMapper.toBoxUdt(getCqlType(), value);
-    }
-
-    protected EnvelopeUdt toEnvelopeType(UdtValue value) {
-        return ShipmentEntityMapper.toEnvelopeType(value);
     }
 }

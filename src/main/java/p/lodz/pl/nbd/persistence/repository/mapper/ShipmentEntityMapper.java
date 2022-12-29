@@ -25,13 +25,15 @@ public class ShipmentEntityMapper {
     }
 
     private static ShipmentByStartDate toShipmentByStartDate(final Row row) {
-        return ShipmentByStartDate.builder()
+        var shipment = ShipmentByStartDate.builder()
                 .id(row.getUuid("id"))
                 .boxesCost(row.getDouble("boxes_cost"))
                 .startDate(row.getInstant("start_date"))
                 .bundles(toBundlesTypes(row.getList("bundles", UdtValue.class)))
                 .envelopes(toEnvelopesTypes(row.getList("envelopes", UdtValue.class)))
                 .build();
+        shipment.setFinalizationDate(row.getInstant("finalization_date"));
+        return shipment;
     }
 
     public static List<BundleUdt> toBundlesTypes(List<UdtValue> bundles) {

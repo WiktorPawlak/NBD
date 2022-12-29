@@ -21,6 +21,7 @@ public final class BoxMapper {
     public static Bundle toBundle(final BundleUdt boxType) {
         return Bundle.lombokBuilder()
                 .fragile(boxType.getFragile())
+                .weight(boxType.getWeight())
                 .height(boxType.getHeight())
                 .width(boxType.getWidth())
                 .length(boxType.getLength())
@@ -36,6 +37,7 @@ public final class BoxMapper {
     public static Envelope toEnvelope(final EnvelopeUdt boxType) {
         return Envelope.lombokBuilder()
                 .priority(boxType.getPriority())
+                .weight(boxType.getWeight())
                 .height(boxType.getHeight())
                 .width(boxType.getWidth())
                 .length(boxType.getLength())
@@ -57,6 +59,7 @@ public final class BoxMapper {
     public static BundleUdt toBundleType(final Bundle boxType) {
         return BundleUdt.builder()
                 .fragile(boxType.getFragile())
+                .weight(boxType.getWeight())
                 .height(boxType.getHeight())
                 .width(boxType.getWidth())
                 .length(boxType.getLength())
@@ -66,6 +69,7 @@ public final class BoxMapper {
     public static EnvelopeUdt toEnvelopeType(final Envelope boxType) {
         return EnvelopeUdt.builder()
                 .priority(boxType.getPriority())
+                .weight(boxType.getWeight())
                 .height(boxType.getHeight())
                 .width(boxType.getWidth())
                 .length(boxType.getLength())

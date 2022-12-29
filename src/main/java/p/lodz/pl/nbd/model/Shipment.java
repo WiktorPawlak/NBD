@@ -44,6 +44,11 @@ public class Shipment {
         this.boxesCost = calculateTotalCost(bundles, envelopes);
     }
 
+    public double recalculateTotalCost() {
+        boxesCost = calculateTotalCost(bundles, envelopes);
+        return boxesCost;
+    }
+
     private double calculateTotalCost(final List<Bundle> bundles,
                                       final List<Envelope> envelopes) {
         double total = 0;
