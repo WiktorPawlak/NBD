@@ -18,13 +18,13 @@ public abstract class DocumentRepository<T, ID> extends AbstractMongoRepository 
 
     private final String collectionName;
 
-    public <S extends T> T save(S entity) {
+    public <S extends T> T save(final S entity) {
         MongoCollection<T> collection = getMongoRepository().getCollection(collectionName, documentClass);
         collection.insertOne(entity);
         return entity;
     }
 
-    public Optional<T> findById(ID id) {
+    public Optional<T> findById(final ID id) {
         MongoCollection<T> collection = getMongoRepository().getCollection(collectionName, documentClass);
         return Optional.ofNullable(collection.find(eq("_id", id)).first());
     }
